@@ -41,7 +41,7 @@ to install `OpenSSH` when prompted. Remember the user password you choose. You
 can also import SSH keys at this step--it will ask you if you want to import them
 from GitHub.
 
-SSH into the VM from local host. Password is `netviews` (or whatever you chose
+SSH into the VM from local host. Password is `msnetviews` (or whatever you chose
 during install).
 
 ``` shell
@@ -111,14 +111,14 @@ ssh-keygen -t rsa -C "your_email@example.com"
 
 [upload your VM's RSA (e.g. ~/.ssh/id_rsa.pub) SSH key to GitHub](https://github.com/settings/keys).
 
-Clone the NetViews repo
+Clone the MSNetViews repo
 ``` shell
-git clone git@github.com:enck/netviews-code.git ~/netviews-code
+git clone git@github.com/netviews/ms-netviews ~/ms-netviews
 ```
 
 Create an ONOS app
 ``` shell
-pushd ~/netviews-code/ONOS_Apps/netviews && onos-create-app cli org.onosproject netviews 1.0-SNAPSHOT org.onosproject.netviews && popd
+pushd ~/ms-netviews/ONOS_Apps/netviews && onos-create-app cli org.onosproject netviews 1.0-SNAPSHOT org.onosproject.netviews && popd
 ```
 
 If the above returns a build error, you may need to delete a file (as below) and
