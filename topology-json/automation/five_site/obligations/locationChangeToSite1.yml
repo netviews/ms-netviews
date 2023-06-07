@@ -1,0 +1,73 @@
+label: locationChangeToSite1
+rules:
+  - label: rule1
+    event:
+      subject:
+        anyUser:
+          - "admin"
+      policyClass:
+        eachOf:
+          - "location"
+      operations:
+        - assign to
+      target:
+        policyElements:
+          - name: site1
+            type: "UA"
+    response:
+      actions:
+        - assign:
+            - what:
+                function:
+                  name: child_of_assign
+                type: "U"
+                properties:
+                  k: v
+              where:
+                function:
+                  name: current_target
+                type: "UA"
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: child_of_assign
+                  type: "U"
+                  properties:
+                    k: v
+                where:
+                  name: "site2"
+                  type: "UA"
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: child_of_assign
+                  type: "U"
+                  properties:
+                    k: v
+                where:
+                  name: "site3"
+                  type: "UA"
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: child_of_assign
+                  type: "U"
+                  properties:
+                    k: v
+                where:
+                  name: "site4"
+                  type: "UA"
+        - delete:
+            assignments:
+              - what:
+                  function:
+                    name: child_of_assign
+                  type: "U"
+                  properties:
+                    k: v
+                where:
+                  name: "site5"
+                  type: "UA"

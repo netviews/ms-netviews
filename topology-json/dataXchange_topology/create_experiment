@@ -1,0 +1,93 @@
+#!/usr/bin/env python
+
+#sample usage: -t ./five_site/topologies/enterprise_hosts.json -o ./five_site/experiments/experiment.json -H 325 -SV 175 -S 5 -L 5
+
+import json
+import argparse
+import re
+import sys
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--topology', type = str, required = True,
+         help = 'the enterprise topology to create the experiment for')
+    parser.add_argument('-o', '--output', type = str, required = False,
+         help = 'the name of the output file')
+    parser.add_argument('-H', '--hosts', type = int, required = True,
+         help = 'the number of hosts in the enterprise')
+    parser.add_argument('-SV', '--servers', type=int, required=True,
+                        help='the number of servers in the enterprise')
+    parser.add_argument('-S', '--sites', type=int, required=True,
+                        help='the number of sites in the enterprise')
+    parser.add_argument('-L', '--limit', nargs='?', const=sys.maxsize, type=int,
+                        help='Number of hosts/servers taking part in experiments from each site. Leave empty if all hosts and servers are taking part.')
+
+    args = parser.parse_args()
+
+    doit(args.topology, args.output, args.hosts,args.servers,args.sites,args.limit)
+
+def isHostInLimit(hostname,limit,total_nodes,total_sites):
+    current_node_number=int(re.split('(\d.*)',hostname)[1])
+    for site_number in range(total_sites):
+        if (current_node_number > (site_number)*(total_nodes/total_sites) and  current_node_number <= (site_number)*(total_nodes/total_sites) + limit):
+            return True
+    return False
+
+def doit(topology, outputFile, host_number, total_servers, total_sites,limit):
+    info = {"server":[], "client":[]}
+    topology = open(topology, 'r')
+    topology = json.load(topology)
+    port_server_first = 1
+    port_server_second = 1
+    port_host = 81
+
+    port_client_first = 1
+    port_client_second = 1
+
+    curr_port = 81
+    for host in topology["hosts"]:
+
+        if host["description"] == "host" and isHostInLimit(host["name"],limit,host_number,total_sites):
+            client_commands = get_client_commands(topology, curr_port, port_client_first, port_client_second,limit,total_servers,total_sites)
+            info["client"].append({
+                host["name"]: client_commands})
+
+            curr_port += 1
+            port_client_first += 1
+
+        elif host["description"] == "server" and isHostInLimit(host["name"],limit,total_servers,total_sites):
+            server_commands = get_server_commands(host_number, port_server_first, port_server_second,limit,total_sites)
+            info["server"].append({
+                host["name"]: server_commands
+                    })
+            port_server_first += 1
+                    
+
+    with open(outputFile, 'w+') as f:
+        json.dump(info, f, indent = 4)
+
+def get_server_commands(host_number, port_server_first, port_server_second,limit,total_sites):
+    server_commands = []
+    port_number=81
+    for i in range(81, host_number + 81):
+        if isHostInLimit("h"+str(i-80),limit,host_number,total_sites):
+            server_commands.append(
+            "iperf3 -s -p " + str(port_number) + " >& /tmp/experiments/server_throughput_" + str(port_server_first) + "_" + str(port_server_second) + ".log &")
+            port_server_second += 1
+            port_number+=1
+    return server_commands 
+
+
+def get_client_commands(topology, curr_port, port_client_first, port_client_second,limit,total_servers,total_sites):
+    client_commands = []
+    for server in topology["hosts"]:
+        if server["description"] == "server" and isHostInLimit(server["name"],limit,total_servers,total_sites):
+            client_commands.append(
+                    "iperf3 -c " + server["ip"][:len(server["ip"]) - 3] + " -p " + str(curr_port) + " -P 1 -V -t 60 >> /tmp/experiments/client_throughput_" + str(port_client_first) + "_" + str(port_client_second) + ".log &")
+            port_client_second += 1
+
+    return client_commands
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,407 @@
+{
+  "nodes": [
+    {
+      "name": "role",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "location",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "z_AliceL1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "BobPC3",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "sv1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "sv2",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "sv3",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "printer1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "svemail",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "database1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "S1devUser",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "u1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "u2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "S2devUser",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "knownUser",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "site1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "site2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "enterprise",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "S1dev",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1printer",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1hr",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1email",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1database",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1datacenter",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1Roles",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S2Roles",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S2supportServer",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S2support",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S2devServer",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S2datacenter",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "site2Resources",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "site1Resources",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "globalResources",
+      "type": "OA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "z_AliceL1",
+      "target": "u1"
+    },
+    {
+      "source": "BobPC3",
+      "target": "u2"
+    },
+    {
+      "source": "u1",
+      "target": "S1devUser"
+    },
+    {
+      "source": "u2",
+      "target": "S2devUser"
+    },
+    {
+      "source": "u1",
+      "target": "site1"
+    },
+    {
+      "source": "u2",
+      "target": "site2"
+    },
+    {
+      "source": "S1devUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "S2devUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "knownUser",
+      "target": "role"
+    },
+    {
+      "source": "site1",
+      "target": "enterprise"
+    },
+    {
+      "source": "site2",
+      "target": "enterprise"
+    },
+    {
+      "source": "enterprise",
+      "target": "location"
+    },
+    {
+      "source": "sv1",
+      "target": "S1dev"
+    },
+    {
+      "source": "sv2",
+      "target": "S2supportServer"
+    },
+    {
+      "source": "sv3",
+      "target": "S2devServer"
+    },
+    {
+      "source": "svemail",
+      "target": "S1email"
+    },
+    {
+      "source": "S1email",
+      "target": "S1datacenter"
+    },
+    {
+      "source": "database1",
+      "target": "S1database"
+    },
+    {
+      "source": "S1database",
+      "target": "S1datacenter"
+    },
+    {
+      "source": "S1datacenter",
+      "target": "S1Roles"
+    },
+    {
+      "source": "printer1",
+      "target": "S1printer"
+    },
+    {
+      "source": "S1printer",
+      "target": "S1hr"
+    },
+    {
+      "source": "S1hr",
+      "target": "S1Roles"
+    },
+    {
+      "source": "S2supportServer",
+      "target": "S2support"
+    },
+    {
+      "source": "S2devServer",
+      "target": "S2datacenter"
+    },
+    {
+      "source": "S1dev",
+      "target": "S1Roles"
+    },
+    {
+      "source": "S2support",
+      "target": "S2Roles"
+    },
+    {
+      "source": "S2datacenter",
+      "target": "S2Roles"
+    },
+    {
+      "source": "S1Roles",
+      "target": "role"
+    },
+    {
+      "source": "S2Roles",
+      "target": "role"
+    },
+    {
+      "source": "sv1",
+      "target": "site1Resources"
+    },
+    {
+      "source": "sv2",
+      "target": "site2Resources"
+    },
+    {
+      "source": "sv3",
+      "target": "site2Resources"
+    },
+    {
+      "source": "svemail",
+      "target": "globalResources"
+    },
+    {
+      "source": "database1",
+      "target": "site1Resources"
+    },
+    {
+      "source": "printer1",
+      "target": "site1Resources"
+    },
+    {
+      "source": "site2Resources",
+      "target": "location"
+    },
+    {
+      "source": "site1Resources",
+      "target": "location"
+    },
+    {
+      "source": "globalResources",
+      "target": "location"
+    }
+  ],
+  "associations": [
+    {
+      "source": "S1devUser",
+      "target": "S1dev",
+      "operations": [
+        "tcp/22",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "S1devUser",
+      "target": "S2supportServer",
+      "operations": [
+        "tcp/22",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "S2devUser",
+      "target": "S2devServer",
+      "operations": [
+        "tcp/22",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "knownUser",
+      "target": "S1email",
+      "operations": [
+        "tcp/587",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "u1",
+      "target": "S1printer",
+      "operations": [
+        "tcp/9100",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "site1",
+      "target": "site1Resources",
+      "operations": [
+        "tcp/22",
+        "tcp/587",
+        "tcp/9100",
+        "arp",
+        "icmp/"
+      ]
+    },
+    {
+      "source": "site2",
+      "target": "site2Resources",
+      "operations": [
+        "tcp/22",
+        "tcp/587",
+        "tcp/9100",
+        "arp",
+	"icmp/"
+      ]
+    },
+    {
+      "source": "enterprise",
+      "target": "globalResources",
+      "operations": [
+        "tcp/22",
+        "tcp/587",
+        "tcp/9100",
+        "arp",
+	"icmp/"
+      ]
+    }
+  ]
+}

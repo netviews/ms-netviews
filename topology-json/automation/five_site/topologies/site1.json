@@ -1,0 +1,1573 @@
+{
+  "ip_base": "172.20.31.10/24",
+  "vpn": {
+    "ip": "172.20.31.1/24",
+    "switch": "s1"
+  },
+  "switches": [
+        {
+                "name": "s1",
+                 "description": "switch"
+        },
+        {
+                "name": "s2",
+                 "description": "switch"
+        },
+        {
+                "name": "s3",
+                 "description": "switch"
+        },
+        {
+                "name": "s4",
+                 "description": "switch"
+        },
+        {
+                "name": "s5",
+                 "description": "switch"
+        },
+        {
+                "name": "s6",
+                 "description": "switch"
+        },
+        {
+                "name": "s7",
+                 "description": "switch"
+        },
+        {
+                "name": "s8",
+                 "description": "switch"
+        },
+        {
+                "name": "s9",
+                 "description": "switch"
+        },
+        {
+                "name": "s10",
+                 "description": "switch"
+        },
+        {
+                "name": "s11",
+                 "description": "switch"
+        },
+        {
+                "name": "s12",
+                 "description": "switch"
+        },
+        {
+                "name": "s13",
+                 "description": "switch"
+        },
+        {
+                "name": "s14",
+                 "description": "switch"
+        },
+        {
+                "name": "s15",
+                 "description": "switch"
+        },
+        {
+                "name": "s16",
+                 "description": "switch"
+        },
+        {
+                "name": "s17",
+                 "description": "switch"
+        },
+        {
+                "name": "s18",
+                 "description": "switch"
+        },
+        {
+                "name": "s19",
+                 "description": "switch"
+        },
+        {
+                "name": "s20",
+                 "description": "switch"
+        },
+        {
+                "name": "s21",
+                 "description": "switch"
+        },
+        {
+                "name": "s22",
+                 "description": "switch"
+        },
+        {
+                "name": "s23",
+                 "description": "switch"
+        },
+        {
+                "name": "s24",
+                 "description": "switch"
+        },
+        {
+                "name": "s25",
+                 "description": "switch"
+        }
+],
+"hosts": [
+        {
+                "description": "host",
+                "name": "h1",
+                "ip": "172.20.31.11/24",
+                "mac": "00:00:00:00:00:01",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h2",
+                "ip": "172.20.31.12/24",
+                "mac": "00:00:00:00:00:02",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h3",
+                "ip": "172.20.31.13/24",
+                "mac": "00:00:00:00:00:03",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h4",
+                "ip": "172.20.31.14/24",
+                "mac": "00:00:00:00:00:04",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h5",
+                "ip": "172.20.31.15/24",
+                "mac": "00:00:00:00:00:05",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h6",
+                "ip": "172.20.31.16/24",
+                "mac": "00:00:00:00:00:06",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h7",
+                "ip": "172.20.31.17/24",
+                "mac": "00:00:00:00:00:07",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h8",
+                "ip": "172.20.31.18/24",
+                "mac": "00:00:00:00:00:08",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h9",
+                "ip": "172.20.31.19/24",
+                "mac": "00:00:00:00:00:09",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h10",
+                "ip": "172.20.31.20/24",
+                "mac": "00:00:00:00:00:0a",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h11",
+                "ip": "172.20.31.21/24",
+                "mac": "00:00:00:00:00:0b",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h12",
+                "ip": "172.20.31.22/24",
+                "mac": "00:00:00:00:00:0c",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h13",
+                "ip": "172.20.31.23/24",
+                "mac": "00:00:00:00:00:0d",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h14",
+                "ip": "172.20.31.24/24",
+                "mac": "00:00:00:00:00:0e",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h15",
+                "ip": "172.20.31.25/24",
+                "mac": "00:00:00:00:00:0f",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h16",
+                "ip": "172.20.31.26/24",
+                "mac": "00:00:00:00:00:10",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h17",
+                "ip": "172.20.31.27/24",
+                "mac": "00:00:00:00:00:11",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h18",
+                "ip": "172.20.31.28/24",
+                "mac": "00:00:00:00:00:12",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h19",
+                "ip": "172.20.31.29/24",
+                "mac": "00:00:00:00:00:13",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h20",
+                "ip": "172.20.31.30/24",
+                "mac": "00:00:00:00:00:14",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h21",
+                "ip": "172.20.31.31/24",
+                "mac": "00:00:00:00:00:15",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h22",
+                "ip": "172.20.31.32/24",
+                "mac": "00:00:00:00:00:16",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h23",
+                "ip": "172.20.31.33/24",
+                "mac": "00:00:00:00:00:17",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h24",
+                "ip": "172.20.31.34/24",
+                "mac": "00:00:00:00:00:18",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h25",
+                "ip": "172.20.31.35/24",
+                "mac": "00:00:00:00:00:19",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h26",
+                "ip": "172.20.31.36/24",
+                "mac": "00:00:00:00:00:1a",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h27",
+                "ip": "172.20.31.37/24",
+                "mac": "00:00:00:00:00:1b",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h28",
+                "ip": "172.20.31.38/24",
+                "mac": "00:00:00:00:00:1c",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h29",
+                "ip": "172.20.31.39/24",
+                "mac": "00:00:00:00:00:1d",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h30",
+                "ip": "172.20.31.40/24",
+                "mac": "00:00:00:00:00:1e",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h31",
+                "ip": "172.20.31.41/24",
+                "mac": "00:00:00:00:00:1f",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h32",
+                "ip": "172.20.31.42/24",
+                "mac": "00:00:00:00:00:20",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h33",
+                "ip": "172.20.31.43/24",
+                "mac": "00:00:00:00:00:21",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h34",
+                "ip": "172.20.31.44/24",
+                "mac": "00:00:00:00:00:22",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h35",
+                "ip": "172.20.31.45/24",
+                "mac": "00:00:00:00:00:23",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h36",
+                "ip": "172.20.31.46/24",
+                "mac": "00:00:00:00:00:24",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h37",
+                "ip": "172.20.31.47/24",
+                "mac": "00:00:00:00:00:25",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h38",
+                "ip": "172.20.31.48/24",
+                "mac": "00:00:00:00:00:26",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h39",
+                "ip": "172.20.31.49/24",
+                "mac": "00:00:00:00:00:27",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h40",
+                "ip": "172.20.31.50/24",
+                "mac": "00:00:00:00:00:28",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h41",
+                "ip": "172.20.31.51/24",
+                "mac": "00:00:00:00:00:29",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h42",
+                "ip": "172.20.31.52/24",
+                "mac": "00:00:00:00:00:2a",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h43",
+                "ip": "172.20.31.53/24",
+                "mac": "00:00:00:00:00:2b",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h44",
+                "ip": "172.20.31.54/24",
+                "mac": "00:00:00:00:00:2c",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h45",
+                "ip": "172.20.31.55/24",
+                "mac": "00:00:00:00:00:2d",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h46",
+                "ip": "172.20.31.56/24",
+                "mac": "00:00:00:00:00:2e",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h47",
+                "ip": "172.20.31.57/24",
+                "mac": "00:00:00:00:00:2f",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h48",
+                "ip": "172.20.31.58/24",
+                "mac": "00:00:00:00:00:30",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h49",
+                "ip": "172.20.31.59/24",
+                "mac": "00:00:00:00:00:31",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h50",
+                "ip": "172.20.31.60/24",
+                "mac": "00:00:00:00:00:32",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h51",
+                "ip": "172.20.31.61/24",
+                "mac": "00:00:00:00:00:33",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h52",
+                "ip": "172.20.31.62/24",
+                "mac": "00:00:00:00:00:34",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h53",
+                "ip": "172.20.31.63/24",
+                "mac": "00:00:00:00:00:35",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h54",
+                "ip": "172.20.31.64/24",
+                "mac": "00:00:00:00:00:36",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h55",
+                "ip": "172.20.31.65/24",
+                "mac": "00:00:00:00:00:37",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h56",
+                "ip": "172.20.31.66/24",
+                "mac": "00:00:00:00:00:38",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h57",
+                "ip": "172.20.31.67/24",
+                "mac": "00:00:00:00:00:39",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h58",
+                "ip": "172.20.31.68/24",
+                "mac": "00:00:00:00:00:3a",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h59",
+                "ip": "172.20.31.69/24",
+                "mac": "00:00:00:00:00:3b",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h60",
+                "ip": "172.20.31.70/24",
+                "mac": "00:00:00:00:00:3c",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h61",
+                "ip": "172.20.31.71/24",
+                "mac": "00:00:00:00:00:3d",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h62",
+                "ip": "172.20.31.72/24",
+                "mac": "00:00:00:00:00:3e",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h63",
+                "ip": "172.20.31.73/24",
+                "mac": "00:00:00:00:00:3f",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h64",
+                "ip": "172.20.31.74/24",
+                "mac": "00:00:00:00:00:40",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "host",
+                "name": "h65",
+                "ip": "172.20.31.75/24",
+                "mac": "00:00:00:00:00:41",
+                "type": "user",
+                "server_type": null
+        },
+        {
+                "description": "server",
+                "name": "sv1",
+                "ip": "172.20.31.76/24",
+                "mac": "00:00:00:00:00:42",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv2",
+                "ip": "172.20.31.77/24",
+                "mac": "00:00:00:00:00:43",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv3",
+                "ip": "172.20.31.78/24",
+                "mac": "00:00:00:00:00:44",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv4",
+                "ip": "172.20.31.79/24",
+                "mac": "00:00:00:00:00:45",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv5",
+                "ip": "172.20.31.80/24",
+                "mac": "00:00:00:00:00:46",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv6",
+                "ip": "172.20.31.81/24",
+                "mac": "00:00:00:00:00:47",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv7",
+                "ip": "172.20.31.82/24",
+                "mac": "00:00:00:00:00:48",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv8",
+                "ip": "172.20.31.83/24",
+                "mac": "00:00:00:00:00:49",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv9",
+                "ip": "172.20.31.84/24",
+                "mac": "00:00:00:00:00:4a",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv10",
+                "ip": "172.20.31.85/24",
+                "mac": "00:00:00:00:00:4b",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv11",
+                "ip": "172.20.31.86/24",
+                "mac": "00:00:00:00:00:4c",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv12",
+                "ip": "172.20.31.87/24",
+                "mac": "00:00:00:00:00:4d",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv13",
+                "ip": "172.20.31.88/24",
+                "mac": "00:00:00:00:00:4e",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv14",
+                "ip": "172.20.31.89/24",
+                "mac": "00:00:00:00:00:4f",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv15",
+                "ip": "172.20.31.90/24",
+                "mac": "00:00:00:00:00:50",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv16",
+                "ip": "172.20.31.91/24",
+                "mac": "00:00:00:00:00:51",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv17",
+                "ip": "172.20.31.92/24",
+                "mac": "00:00:00:00:00:52",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv18",
+                "ip": "172.20.31.93/24",
+                "mac": "00:00:00:00:00:53",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv19",
+                "ip": "172.20.31.94/24",
+                "mac": "00:00:00:00:00:54",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv20",
+                "ip": "172.20.31.95/24",
+                "mac": "00:00:00:00:00:55",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv21",
+                "ip": "172.20.31.96/24",
+                "mac": "00:00:00:00:00:56",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv22",
+                "ip": "172.20.31.97/24",
+                "mac": "00:00:00:00:00:57",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv23",
+                "ip": "172.20.31.98/24",
+                "mac": "00:00:00:00:00:58",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv24",
+                "ip": "172.20.31.99/24",
+                "mac": "00:00:00:00:00:59",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv25",
+                "ip": "172.20.31.100/24",
+                "mac": "00:00:00:00:00:5a",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv26",
+                "ip": "172.20.31.101/24",
+                "mac": "00:00:00:00:00:5b",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv27",
+                "ip": "172.20.31.102/24",
+                "mac": "00:00:00:00:00:5c",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv28",
+                "ip": "172.20.31.103/24",
+                "mac": "00:00:00:00:00:5d",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv29",
+                "ip": "172.20.31.104/24",
+                "mac": "00:00:00:00:00:5e",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv30",
+                "ip": "172.20.31.105/24",
+                "mac": "00:00:00:00:00:5f",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv31",
+                "ip": "172.20.31.106/24",
+                "mac": "00:00:00:00:00:60",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv32",
+                "ip": "172.20.31.107/24",
+                "mac": "00:00:00:00:00:61",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv33",
+                "ip": "172.20.31.108/24",
+                "mac": "00:00:00:00:00:62",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv34",
+                "ip": "172.20.31.109/24",
+                "mac": "00:00:00:00:00:63",
+                "type": "resource",
+                "server_type": "HTTP"
+        },
+        {
+                "description": "server",
+                "name": "sv35",
+                "ip": "172.20.31.110/24",
+                "mac": "00:00:00:00:00:64",
+                "type": "resource",
+                "server_type": "HTTP"
+        }
+],
+"links": [
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s2"
+        },
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s3"
+        },
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s4"
+        },
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s5"
+        },
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s6"
+        },
+        {
+                "node1": "s1",
+                "linkopts": {"bw": 1000},
+                "node2": "s7"
+        },
+        {
+                "node1": "s2",
+                "linkopts": {"bw": 1000},
+                "node2": "s8"
+        },
+        {
+                "node1": "s2",
+                "linkopts": {"bw": 1000},
+                "node2": "s9"
+        },
+        {
+                "node1": "s2",
+                "linkopts": {"bw": 1000},
+                "node2": "s10"
+        },
+        {
+                "node1": "s2",
+                "linkopts": {"bw": 1000},
+                "node2": "s11"
+        },
+        {
+                "node1": "s2",
+                "linkopts": {"bw": 1000},
+                "node2": "s12"
+        },
+        {
+                "node1": "s3",
+                "linkopts": {"bw": 1000},
+                "node2": "s14"
+        },
+        {
+                "node1": "s3",
+                "linkopts": {"bw": 1000},
+                "node2": "s21"
+        },
+        {
+                "node1": "s4",
+                "linkopts": {"bw": 1000},
+                "node2": "s17"
+        },
+        {
+                "node1": "s4",
+                "linkopts": {"bw": 1000},
+                "node2": "s19"
+        },
+        {
+                "node1": "s5",
+                "linkopts": {"bw": 1000},
+                "node2": "s18"
+        },
+        {
+                "node1": "s5",
+                "linkopts": {"bw": 1000},
+                "node2": "s22"
+        },
+        {
+                "node1": "s6",
+                "linkopts": {"bw": 1000},
+                "node2": "s13"
+        },
+        {
+                "node1": "s6",
+                "linkopts": {"bw": 1000},
+                "node2": "s14"
+        },
+        {
+                "node1": "s6",
+                "linkopts": {"bw": 1000},
+                "node2": "s20"
+        },
+        {
+                "node1": "s6",
+                "linkopts": {"bw": 1000},
+                "node2": "s24"
+        },
+        {
+                "node1": "s7",
+                "linkopts": {"bw": 1000},
+                "node2": "s16"
+        },
+        {
+                "node1": "s7",
+                "linkopts": {"bw": 1000},
+                "node2": "s25"
+        },
+        {
+                "node1": "s8",
+                "linkopts": {"bw": 1000},
+                "node2": "s13"
+        },
+        {
+                "node1": "s8",
+                "linkopts": {"bw": 1000},
+                "node2": "s21"
+        },
+        {
+                "node1": "s9",
+                "linkopts": {"bw": 1000},
+                "node2": "s17"
+        },
+        {
+                "node1": "s9",
+                "linkopts": {"bw": 1000},
+                "node2": "s22"
+        },
+        {
+                "node1": "s10",
+                "linkopts": {"bw": 1000},
+                "node2": "s18"
+        },
+        {
+                "node1": "s10",
+                "linkopts": {"bw": 1000},
+                "node2": "s23"
+        },
+        {
+                "node1": "s11",
+                "linkopts": {"bw": 1000},
+                "node2": "s15"
+        },
+        {
+                "node1": "s11",
+                "linkopts": {"bw": 1000},
+                "node2": "s24"
+        },
+        {
+                "node1": "s12",
+                "linkopts": {"bw": 1000},
+                "node2": "s25"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "h1"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "h2"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "h3"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "h4"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "h5"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "h6"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "h7"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "h8"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "h9"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "h10"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "h11"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "h12"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "h13"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "h14"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "h15"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "h16"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "h17"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "h18"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "h19"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "h20"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "h21"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "h22"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "h23"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "h24"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "h25"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "h26"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "h27"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "h28"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "h29"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "h30"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "h31"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "h32"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "h33"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "h34"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "h35"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "h36"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "h37"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "h38"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "h39"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "h40"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "h41"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "h42"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "h43"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "h44"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "h45"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "h46"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "h47"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "h48"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "h49"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "h50"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "h51"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "h52"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "h53"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "h54"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "h55"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "h56"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "h57"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "h58"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "h59"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "h60"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "h61"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "h62"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "h63"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "h64"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "h65"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "sv1"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "sv2"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "sv3"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "sv4"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "sv5"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "sv6"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "sv7"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "sv8"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "sv9"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "sv10"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "sv11"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "sv12"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "sv13"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "sv14"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "sv15"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "sv16"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "sv17"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "sv18"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "sv19"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "sv20"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "sv21"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "sv22"
+        },
+        {
+                "node1": "s22",
+                "linkopts": {"bw": 1000},
+                "node2": "sv23"
+        },
+        {
+                "node1": "s23",
+                "linkopts": {"bw": 1000},
+                "node2": "sv24"
+        },
+        {
+                "node1": "s24",
+                "linkopts": {"bw": 1000},
+                "node2": "sv25"
+        },
+        {
+                "node1": "s25",
+                "linkopts": {"bw": 1000},
+                "node2": "sv26"
+        },
+        {
+                "node1": "s13",
+                "linkopts": {"bw": 1000},
+                "node2": "sv27"
+        },
+        {
+                "node1": "s14",
+                "linkopts": {"bw": 1000},
+                "node2": "sv28"
+        },
+        {
+                "node1": "s15",
+                "linkopts": {"bw": 1000},
+                "node2": "sv29"
+        },
+        {
+                "node1": "s16",
+                "linkopts": {"bw": 1000},
+                "node2": "sv30"
+        },
+        {
+                "node1": "s17",
+                "linkopts": {"bw": 1000},
+                "node2": "sv31"
+        },
+        {
+                "node1": "s18",
+                "linkopts": {"bw": 1000},
+                "node2": "sv32"
+        },
+        {
+                "node1": "s19",
+                "linkopts": {"bw": 1000},
+                "node2": "sv33"
+        },
+        {
+                "node1": "s20",
+                "linkopts": {"bw": 1000},
+                "node2": "sv34"
+        },
+        {
+                "node1": "s21",
+                "linkopts": {"bw": 1000},
+                "node2": "sv35"
+        }
+]
+}

@@ -1,0 +1,190 @@
+[
+    {
+        "Name": "s1",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000001",
+        "Type": "Switch",
+        "ID": "1",
+        "Description": "switch"
+    },
+    {
+        "Name": "s2",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000002",
+        "Type": "Switch",
+        "ID": "2",
+        "Description": "switch"
+    },
+    {
+        "Name": "s3",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000003",
+        "Type": "Switch",
+        "ID": "3",
+        "Description": "switch"
+    },
+    {
+        "Name": "s4",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000004",
+        "Type": "Switch",
+        "ID": "4",
+        "Description": "switch"
+    },
+    {
+        "Name": "s5",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000005",
+        "Type": "Switch",
+        "ID": "5",
+        "Description": "switch"
+    },
+    {
+        "Name": "s6",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000006",
+        "Type": "Switch",
+        "ID": "6",
+        "Description": "ap"
+    },
+    {
+        "Name": "s7",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000007",
+        "Type": "Switch",
+        "ID": "7",
+        "Description": "router"
+    },
+    {
+        "Name": "s8",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000008",
+        "Type": "Switch",
+        "ID": "8",
+        "Description": "router"
+    },
+    {
+        "Name": "s9",
+        "IP": "127.0.0.1",
+        "MAC": "0000000000000009",
+        "Type": "Switch",
+        "ID": "9",
+        "Description": "firewall"
+    },
+    {
+        "Name": "s10",
+        "IP": "127.0.0.1",
+        "MAC": "000000000000000a",
+        "Type": "Switch",
+        "ID": "10",
+        "Description": "firewall"
+    },
+    {
+        "Name": "h1",
+        "IP": "10.0.0.1",
+        "MAC": "00:00:00:00:00:01",
+        "Type": "Host",
+        "ID": "11",
+        "Description": "host",
+        "Port": "h1-eth0:s1-eth2"
+    },
+    {
+        "Name": "h2",
+        "IP": "10.0.0.2",
+        "MAC": "00:00:00:00:00:02",
+        "Type": "Host",
+        "ID": "12",
+        "Description": "host",
+        "Port": "h2-eth0:s1-eth3h2-eth1:s2-eth3"
+    },
+    {
+        "Name": "h3",
+        "IP": "10.0.0.3",
+        "MAC": "00:00:00:00:00:03",
+        "Type": "Host",
+        "ID": "13",
+        "Description": "mobile",
+        "Port": "h3-eth0:s6-eth2"
+    },
+    {
+        "Name": "h4",
+        "IP": "10.0.0.4",
+        "MAC": "00:00:00:00:00:04",
+        "Type": "Host",
+        "ID": "14",
+        "Description": "laptop",
+        "Port": "h4-eth0:s6-eth3"
+    },
+    {
+        "Name": "sv1",
+        "IP": "10.0.0.5",
+        "MAC": "00:00:00:00:00:05",
+        "Type": "Host",
+        "ID": "15",
+        "Description": "server",
+        "Port": "sv1-eth0:s2-eth4"
+    },
+    {
+        "Name": "sv2",
+        "IP": "10.0.0.6",
+        "MAC": "00:00:00:00:00:06",
+        "Type": "Host",
+        "ID": "16",
+        "Description": "server",
+        "Port": "sv2-eth0:s2-eth5"
+    },
+    {
+        "Name": "sv3",
+        "IP": "10.0.0.7",
+        "MAC": "00:00:00:00:00:07",
+        "Type": "Host",
+        "ID": "17",
+        "Description": "server",
+        "Port": "sv3-eth0:s2-eth6sv3-eth1:s2-eth7sv3-eth2:s3-eth3"
+    },
+    {
+        "Name": "sv4",
+        "IP": "10.0.0.8",
+        "MAC": "00:00:00:00:00:08",
+        "Type": "Host",
+        "ID": "18",
+        "Description": "server",
+        "Port": "sv4-eth0:s3-eth4"
+    },
+    {
+        "Name": "sv5",
+        "IP": "10.0.0.9",
+        "MAC": "00:00:00:00:00:09",
+        "Type": "Host",
+        "ID": "19",
+        "Description": "server",
+        "Port": "sv5-eth0:s5-eth3"
+    },
+    {
+        "Name": "sv6",
+        "IP": "10.0.0.10",
+        "MAC": "00:00:00:00:00:0a",
+        "Type": "Host",
+        "ID": "20",
+        "Description": "server",
+        "Port": "sv6-eth0:s5-eth2"
+    },
+    {
+        "Name": "sv7",
+        "IP": "10.0.0.11",
+        "MAC": "00:00:00:00:00:0b",
+        "Type": "Host",
+        "ID": "21",
+        "Description": "server",
+        "Port": "sv7-eth0:s4-eth2"
+    },
+    {
+        "Name": "sv8",
+        "IP": "10.0.0.12",
+        "MAC": "00:00:00:00:00:0c",
+        "Type": "Host",
+        "ID": "22",
+        "Description": "server",
+        "Port": "sv8-eth0:s4-eth3"
+    }
+]

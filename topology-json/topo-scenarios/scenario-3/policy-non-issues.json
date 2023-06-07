@@ -1,0 +1,332 @@
+{
+  "nodes": [
+    {
+      "name": "location",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "role",
+      "type": "PC",
+      "properties": {}
+    },
+    {
+      "name": "Jack_PC2",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Linda_PC1",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Wendy_PC4",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "Tom_PC5",
+      "type": "U",
+      "properties": {}
+    },
+    {
+      "name": "sv1",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "sv2",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "RDServer",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "support",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "email",
+      "type": "O",
+      "properties": {}
+    },
+    {
+      "name": "u1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "u2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "u3",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "u4",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "S1sv1",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1sv2",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1RDServer",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1support",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1email",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1RD",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1RDUser",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "S1SupportGroup",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "S1SupportUser",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "S1DataCenter",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "site1",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "site2",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "site3",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "enterprise",
+      "type": "UA",
+      "properties": {}
+    },
+    {
+      "name": "site1Resources",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "site2Resources",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "site3Resources",
+      "type": "OA",
+      "properties": {}
+    },
+    {
+      "name": "globalResources",
+      "type": "OA",
+      "properties": {}
+    }
+  ],
+  "assignments": [
+    {
+      "source": "Jack_PC2",
+      "target": "u1"
+    },
+    {
+      "source": "Linda_PC1",
+      "target": "u2"
+    },
+    {
+      "source": "Wendy_PC4",
+      "target": "u3"
+    },
+    {
+      "source": "Tom_PC5",
+      "target": "u4"
+    },
+    {
+      "source": "sv1",
+      "target": "S1sv1"
+    },
+    {
+      "source": "sv2",
+      "target": "S1sv2"
+    },
+    {
+      "source": "RDServer",
+      "target": "S1RDServer"
+    },
+    {
+      "source": "support",
+      "target": "S1support"
+    },
+    {
+      "source": "email",
+      "target": "S1email"
+    },
+    {
+      "source": "u1",
+      "target": "S1RDUser"
+    },
+    {
+      "source": "u2",
+      "target": "S1RDUser"
+    },
+    {
+      "source": "u3",
+      "target": "S1SupportUser"
+    },
+    {
+      "source": "u4",
+      "target": "S1SupportUser"
+    },
+    {
+      "source": "S1sv1",
+      "target": "S1RD"
+    },
+    {
+      "source": "S1sv2",
+      "target": "S1SupportGroup"
+    },
+    {
+      "source": "S1RDServer",
+      "target": "S1DataCenter"
+    },
+    {
+      "source": "S1support",
+      "target": "S1DataCenter"
+    },
+    {
+      "source": "S1email",
+      "target": "S1DataCenter"
+    },
+    {
+      "source": "S1RDUser",
+      "target": "enterprise"
+    },
+    {
+      "source": "S1SupportUser",
+      "target": "role"
+    },
+    {
+      "source": "S1support",
+      "target": "role"
+    },
+    {
+      "source": "S1RD",
+      "target": "site1Resources"
+    },
+    {
+      "source": "S1SupportGroup",
+      "target": "site1Resources"
+    },
+    {
+      "source": "S1email",
+      "target": "globalResources"
+    },
+    {
+      "source": "site1",
+      "target": "location"
+    },
+    {
+      "source": "site2",
+      "target": "location"
+    },
+    {
+      "source": "site3",
+      "target": "location"
+    },
+    {
+      "source": "enterprise",
+      "target": "location"
+    },
+    {
+      "source": "site1Resources",
+      "target": "location"
+    },
+    {
+      "source": "site2Resources",
+      "target": "location"
+    },
+    {
+      "source": "site3Resources",
+      "target": "location"
+    },
+    {
+      "source": "globalResources",
+      "target": "location"
+    }
+  ],
+  "associations": [
+    {
+      "source": "S1SupportUser",
+      "target": "S1Support",
+      "operations": [
+        "tcp/22",
+        "arp",
+	      "icmp/"
+      ]
+    },
+    {
+      "source": "enterprise",
+      "target": "globalResources",
+      "operations": [
+        "tcp/22",
+        "tcp/587",
+        "tcp/9100",
+        "arp",
+	      "icmp/"
+      ]
+    },
+    {
+      "source": "u4",
+      "target": "S1email",
+      "operations": [
+        "tcp/22",
+        "tcp/587",
+        "tcp/9100",
+        "arp",
+              "icmp/"
+      ]
+    }
+  ]
+}

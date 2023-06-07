@@ -1,0 +1,256 @@
+#!/usr/bin/env python
+
+## USAGE NOTES:
+## Before using, review 57 - 85 to see if that is how many sites you want to use
+
+import json
+import argparse
+import random
+from collections import OrderedDict
+import math
+
+class Node:
+    def __init__(self, name, type):
+        self.name = name
+        self.type = type
+        self.left = None
+        self.right = None
+        self.fanout = 0
+
+def main():
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-s', '--numberOfSites', type=int, required=True,
+						help='Number of sites')
+	parser.add_argument('-fn', '--folderName', type=str, required=True,
+						help='name of folder')
+	parser.add_argument('-hl', '--hostsListFile', type=str, required=True,
+						help='the hostList file of enterprise to create the policy for')
+	# parser.add_argument('-o', '--output', type=str, required=True,
+	# 					help='the name of the output policy file')
+	parser.add_argument('-ph', '--policyHeight', type=int, required=True,
+						help='it defines the height of policy tree')
+	args = parser.parse_args()
+
+	make_policy(args.numberOfSites, args.hostsListFile, args.policyHeight, args.folderName)
+
+
+def createNodes(topology, ulist, olist, sulist, solist, policy):
+	for obj in topology["hosts"]:
+		description = obj["description"]
+		site = int(obj["site"])
+		if description == "host":
+			host = OrderedDict()
+			host["name"] = obj["name"]
+			host["type"] = "U"
+			host["properties"] = {}
+			policy["nodes"].append(host)
+			node = Node(obj["name"], "U")
+			ulist.append(node)
+			sulist[site].append(node)
+		elif description == "server":
+			host2 = OrderedDict()
+			host2["name"] = obj["name"]
+			host2["type"] = "O"
+			host2["properties"] = {}
+			policy["nodes"].append(host2)
+			node = Node(obj["name"], "O")
+			olist.append(node)
+			solist[site].append(node)
+
+def createInternalNodes(list, slist, nCount, site, type, policy):
+	for i in range(0, nCount):
+		name = type + str(i+1)
+		node = OrderedDict()
+		node["name"] = name
+		node["type"] = type
+		node["properties"] = {}
+		policy["nodes"].append(node)
+		temp = Node(name, type)
+		list.append(temp)
+	for i in range(0, site):
+		name = "site" + type +str(i+1)
+		node = OrderedDict()
+		node["name"] = name
+		node["type"] = type
+		node["properties"] = {}
+		policy["nodes"].append(node)
+		temp = Node(name, type)
+		slist.append(temp)
+	name = "sites" + type
+	node = OrderedDict()
+	node["name"] = name
+	node["type"] = type
+	node["properties"] = {}
+	policy["nodes"].append(node)
+
+
+def	createPartialDAG(list, alist, llist, pc, height, policy):
+	for u in list:
+		root = alist.pop()
+		u.left = root
+		policy["assignments"].append({
+			"source": u.name,
+			"target": root.name
+		})
+		createBinaryTree(alist, llist, root, height, pc, policy)
+
+
+def createBinaryTree(alist, llist, root, h, pc, policy):
+	if h == 0:
+		root.left = pc
+		policy["assignments"].append({
+			"source": root.name,
+			"target": pc
+		})
+		llist.append(root)
+		return
+	else:
+		if root.left == None:
+			root.left = alist.pop()
+			policy["assignments"].append({
+				"source": root.name,
+				"target": root.left.name
+			})
+			createBinaryTree(alist, llist, root.left, h - 1, pc, policy)
+		if root.right == None:
+			root.right = alist.pop()
+			policy["assignments"].append({
+				"source": root.name,
+				"target": root.right.name
+			})
+			createBinaryTree(alist, llist, root.right, h - 1, pc, policy)
+
+
+def createLocationPCTree(SList, SAList, pc, sCount, type, policy):
+	for c in range(0, sCount):
+		for node in SList[c+1]:
+			policy["assignments"].append({
+				"source": node.name,
+				"target": SAList[c].name
+			})
+		name = "sites" + type
+		policy["assignments"].append({
+			"source": SAList[c].name,
+			"target": name
+		})
+	policy["assignments"].append({
+		"source": name,
+		"target": pc
+	})
+
+def createAssociationRelations(ualList, oalList, policy):
+	count = 0
+	for ua in ualList:
+		for oa in oalList:
+			p = random.randint(1, 101)
+			if p <= 40:
+				ua.fanout = ua.fanout + 1
+				count = count + 1
+				policy["associations"].append({
+					"source": ua.name,
+					"target": oa.name,
+					"operations": "*"
+				})
+			elif ua.fanout >= 2:
+				break
+	return count
+
+def createProhibitionRelations(ualList, oalList, file):
+	flag = 0
+	count = 0
+
+	for ua in ualList:
+		for oa in oalList:
+			p = random.randint(1, 101)
+			if p <= 1:
+				count = count + 1
+				name = "prohibition"+str(count)
+				if flag == 0:
+					file.write("\n{\n\"name\": \"" + name + "\",\n \"subject\": \"" + ua.name + "\" ,\n \"containers\": {\""+oa.name+"\": false},")
+					flag = 1
+				else:
+					file.write(",\n{\n\"name\": \"" + name + "\",\n \"subject\": \"" + ua.name + "\" ,\n \"containers\": {\"" + oa.name + "\": false},")
+				file.write("\n\"ops\": [\n\""+"*"+"\"\n],\n\"intersection\": true\n}")
+				break
+	return count
+
+
+def make_policy(totalSites, hostList, height, folderName):
+	topology = open(folderName+hostList, 'r')
+	topology = json.load(topology)
+	policy = OrderedDict()
+	policy["nodes"] = []
+	policy["assignments"] = []
+	policy["associations"] = []
+
+	UList = []
+	OList = []
+	UAList = []
+	OAList = []
+	uaLeafList = []
+	oaLeafList = []
+	siteSpecificUserList = {}
+	siteSpecificObjectList = {}
+	siteSpecificUAList = []
+	siteSpecificOAList = []
+
+	for s in range(0, totalSites+1):
+		siteSpecificObjectList[s] = []
+		siteSpecificUserList[s] = []
+
+	# Policy classes
+	pcRole = "role"
+	role = OrderedDict()
+	role["name"] = pcRole
+	role["type"] = "PC"
+	role["properties"] = {}
+	policy["nodes"].append(role)
+
+	pcLocation = "location"
+	location = OrderedDict()
+	location["name"] = pcLocation
+	location["type"] = "PC"
+	location["properties"] = {}
+	policy["nodes"].append(location)
+
+	createNodes(topology, UList, OList, siteSpecificUserList, siteSpecificObjectList, policy)
+	objectNodes = int(OList.__len__())
+	userNodes = int(UList.__len__())
+	oaCount = (math.pow(2, (height + 1)) - 1) * objectNodes
+	uaCount = (math.pow(2, (height + 1)) - 1) * userNodes
+
+	createInternalNodes(UAList, siteSpecificUAList, int(uaCount), totalSites, "UA", policy)
+	createInternalNodes(OAList, siteSpecificOAList, int(oaCount), totalSites, "OA", policy)
+
+	createPartialDAG(UList, UAList, uaLeafList, pcRole, height, policy)
+	createPartialDAG(OList, OAList, oaLeafList, pcRole, height, policy)
+
+	createLocationPCTree(siteSpecificUserList, siteSpecificUAList, pcLocation, totalSites, "UA", policy)
+	createLocationPCTree(siteSpecificObjectList, siteSpecificOAList, pcLocation, totalSites, "OA", policy)
+
+	opCount = createAssociationRelations(uaLeafList, oaLeafList, policy)
+	#createLocationPCAssociationRelations
+	for c in range(0, totalSites):
+		policy["associations"].append({
+			"source": siteSpecificUAList[c].name,
+			"target": siteSpecificOAList[c].name,
+			"operations": "*"
+		})
+
+	hostCount = OList.__len__() + UList.__len__()
+	totalNode = height + OList.__len__() + UList.__len__() + int(uaCount) + int(oaCount) + 2 + (totalSites * 2)
+
+	tag = str(hostCount) + "N" + str(totalSites) + "S" + str(height) + "H"
+	policyFileName = folderName + "policy" + tag + ".json"
+	probFileName = folderName + "prohibition" + tag + ".json"
+
+	probFile = open(probFileName, "w")
+	probFile.write("{\n" + "\"prohibitions\": [\n")
+	probCount = createProhibitionRelations(uaLeafList, oaLeafList, probFile)
+	probFile.write("\n] \n }")
+
+	with open(policyFileName, 'w+') as f:
+		json.dump(policy, f, indent=4)
+
+if __name__ == '__main__':
+	main()

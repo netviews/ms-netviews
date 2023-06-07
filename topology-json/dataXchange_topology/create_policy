@@ -1,0 +1,205 @@
+#!/usr/bin/env python
+
+## USAGE NOTES:
+## Before using, review 57 - 85 to see if that is how many sites you want to use
+
+import json
+import argparse
+from collections import OrderedDict
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--topology', type = str, required = True,
+         help = 'the topology to create the policy for')
+    args = parser.parse_args()
+
+    make_policy(args.topology)
+
+
+def make_policy(topology):
+    topology = open(topology, 'r')
+    topology = json.load(topology)
+    policy = OrderedDict()
+    policy["nodes"] = []
+    policy["assignments"] = []
+    policy["associations"] = []
+
+    # Policy classes
+    role = OrderedDict()
+    role["name"] = "role"
+    role["type"] = "PC"
+    role["properties"] = {}
+    policy["nodes"].append(role)
+
+    location = OrderedDict()
+    location["name"] = "location"
+    location["type"] = "PC"
+    location["properties"] = {}
+    policy["nodes"].append(location)
+        
+
+    # UA and OA for Role PC
+    # Note: also need every object to have a UA alias to assign to the allRoles OA
+    knownUser = OrderedDict()
+    knownUser["name"] = "knownUser"
+    knownUser["type"] = "UA"
+    knownUser["properties"] = {}
+    policy["nodes"].append(knownUser)
+    
+    allRoles = OrderedDict()
+    allRoles["name"] = "allRoles"
+    allRoles["type"] = "OA"
+    allRoles["properties"] = {}
+    policy["nodes"].append(allRoles)
+
+
+    # UA and OA for Location PC
+    site1 = OrderedDict()
+    site1["name"] = "site1"
+    site1["type"] = "UA"
+    site1["properties"] = {}
+    policy["nodes"].append(site1)
+
+    #site2 = OrderedDict()
+    #site2["name"] = "site2"
+    #site2["type"] = "UA"
+    #site2["properties"] = {}
+    #policy["nodes"].append(site2)
+
+    #site3 = OrderedDict()
+    #site3["name"] = "site3"
+    #site3["type"] = "UA"
+    #site3["properties"] = {}
+    #policy["nodes"].append(site3)
+
+    #site4 = OrderedDict()
+    #site4["name"] = "site4"
+    #site4["type"] = "UA"
+    #site4["properties"] = {}
+    #policy["nodes"].append(site4)
+    
+    #site5 = OrderedDict()
+    #site5["name"] = "site5"
+    #site5["type"] = "UA"
+    #site5["properties"] = {}
+    #policy["nodes"].append(site5)
+
+    enterprise = OrderedDict()
+    enterprise["name"] = "enterprise"
+    enterprise["type"] = "UA"
+    enterprise["properties"] = {}
+    policy["nodes"].append(enterprise)
+
+    globalResources = OrderedDict()
+    globalResources["name"] = "globalResources"
+    globalResources["type"] = "OA"
+    globalResources["properties"] = {}
+    policy["nodes"].append(globalResources)
+
+    # known assignments
+    # Assignments related to location
+    policy["assignments"].append({
+        "source": "site1",
+        "target": "enterprise"
+        })
+    #policy["assignments"].append({
+        #"source": "site2",
+        #"target": "enterprise"
+        #})
+    #policy["assignments"].append({
+        #"source": "site3",
+        #"target": "enterprise"
+        #})
+    #policy["assignments"].append({
+        #"source": "site4",
+        #"target": "enterprise"
+        #})
+    #policy["assignments"].append({
+        #"source": "site5",
+        #"target": "enterprise"
+        #})
+    policy["assignments"].append({
+        "source": "enterprise",
+        "target": "location"
+        })
+    policy["assignments"].append({
+        "source": "globalResources",
+        "target": "location"
+        })
+
+    # Assignments related to role
+    policy["assignments"].append({
+        "source": "knownUser",
+        "target": "role"
+        })
+    policy["assignments"].append({
+        "source": "allRoles",
+        "target": "role"
+        })
+
+
+    # Associations
+    operations = ["arp", "icmp/"]
+    curr_tcp = 81
+    for obj in topology["hosts"]:
+        if obj["description"] == "host":
+            operations.append("tcp/" + str(curr_tcp))
+            curr_tcp += 1
+    policy["associations"].append({
+        "source": "knownUser",
+        "target": "allRoles",
+        "operations": operations
+        })
+    policy["associations"].append({
+        "source": "enterprise",
+        "target": "globalResources",
+        "operations": operations
+        })
+
+    for obj in topology["hosts"]:
+        description = obj["description"]
+        if description == "host":
+            host = OrderedDict()
+            host["name"] = obj["name"]
+            host["type"] = "U"
+            host["properties"] = {}
+            policy["nodes"].append(host)
+
+            policy["assignments"].append({
+                "source": obj["name"],
+                "target": "knownUser"
+            })
+
+        elif description == "server":
+            host2 = OrderedDict()
+            host2["name"] = obj["name"]
+            host2["type"] = "O"
+            host2["properties"] = {}
+            policy["nodes"].append(host2)
+
+            policy["assignments"].append({
+                "source": obj["name"],
+                "target": "globalResources"
+            })
+            nodeOA = OrderedDict()
+            nodeOA["name"] = "OA" + obj["name"]
+            nodeOA["type"] = "OA"
+            nodeOA["properties"] = {}
+            policy["nodes"].append(nodeOA)
+
+            policy["assignments"].append({
+                "source": obj["name"],
+                "target": "OA" + obj["name"]
+            })
+
+            policy["assignments"].append({
+                "source": "OA" + obj["name"],
+                "target": "allRoles"
+            })
+
+    with open('policy.json', 'w+') as f:
+        json.dump(policy, f, indent = 4)
+
+
+if __name__ == '__main__':
+    main()

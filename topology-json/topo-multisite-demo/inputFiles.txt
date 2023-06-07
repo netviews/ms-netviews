@@ -1,0 +1,5 @@
+POLICYGRAPH,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/policy-3.json
+PROHIBITION,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/prohibition-1.json
+OBLIGATION,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/locationChangeToSite1.yml,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/locationChangeToSite2.yml
+IDENTITYMAPPING,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/identity_mapping_new_format.json
+RESOURCELIST,$HOME_DIRECTORY/netviews-code/topology-json/topo-multisite-demo/resourcelist.txt

@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+
+## USAGE NOTES:
+# BEFORE USING, CONFIRM LINES 53, 59, 70 & 76 TO CONFIRM IF THATS THE IP AND MAC ADDRESS BASE YOU WANT TO USE
+# - For site 1 I have been doing 172.20.31.xx and 00:00:00:00:00:XX while for site 2 I have been doing 172.20.32.xx and 00:00:00:00:XX:00 for example
+
+import argparse
+import os
+import csv
+import re
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-a', '--startHost', type=int, required=True,
+            help='the number assignment of the first host in the desired topology')
+    parser.add_argument('-b', '--endHost', type=int, required=True,
+            help='the number assignment of the last host in the desired topology')
+    parser.add_argument('-c', '--startServer', type=int, required=True,
+            help='the number assignment of the first server in the desired topology')
+    parser.add_argument('-d', '--endServer', type=int, required=True,
+            help='the number assignment of the last server in the desired topology')
+    parser.add_argument('-o', '--output', type=str, required=True,
+            help='the name of the output file')
+    parser.add_argument('-s', '--siteNo', type=str, required=True,
+            help="the site number we are creating the topology for")
+    parser.add_argument('-r','--resourceListFile', type=str, required=True,
+                        help='the resource list file')
+    
+    args = parser.parse_args()
+
+    do_it(args.startHost, args.endHost, args.startServer, args.endServer,args.output, args.siteNo, args.resourceListFile)
+
+
+def get_MAC_address(curr_mac):
+    mac_address = '{0:012x}'.format(curr_mac)
+    mac_address = ':'.join(re.findall(r'\w\w', mac_address))
+    return mac_address;
+
+def do_it(start_host, end_host, start_server, end_server,output_file, site_no, rFile):
+    f = open(output_file, 'w')
+    rf = open(rFile, 'a')
+    rf.write("site"+str(site_no)+":")
+
+    host_ip_forth_octet = 11
+    network="172.20"
+    network_address_third_octet=site_no
+    subnet_mask=24
+    curr_mac=0x1 + (((end_host-start_host+1)+(end_server-start_server+1)) * (int(site_no)-1))
+
+
+    f.write('{\n')
+    f.write('  \"ip_base\": \"'+network+"."+str(network_address_third_octet)+'.10/'+str(subnet_mask)+'\",\n  \"vpn\": {\n    \"ip\": \"'+network+"."+str(network_address_third_octet)+'.1/'+str(subnet_mask)+'\",\n    \"switch\": \"s1\"\n  },\n')
+
+    f.write('  \"switches\": [\n')
+
+    switch_name = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19','s20','s21','s22','s23','s24','s25']
+
+    for x in switch_name:
+        f.write('        {\n')
+        f.write('                \"name\": \"' + x + '\",\n')
+        f.write('                \"description\": \"switch\"\n')
+
+        if x == switch_name[len(switch_name) - 1]:
+            f.write('        }\n')
+            f.write('],\n')
+        else:
+            f.write('        },\n')
+
+    f.write('\"hosts\": [\n')
+
+    for y in range(start_host, end_host + 1):
+        f.write('        {\n')
+        f.write('                \"description\": \"host\",\n')
+        f.write('                \"name\": \"h' + str(y) + '\",\n')
+        f.write('                \"ip\": \"'+network+'.'+str(network_address_third_octet)+'.' + str(host_ip_forth_octet) + '/'+str(subnet_mask)+'\",\n')
+        f.write('                \"mac\": \"'+ get_MAC_address(curr_mac)+ '\",\n')
+        f.write('                \"type\": \"user\",\n')
+        f.write('                \"server_type\": null,\n')
+        f.write('                \"site\": \"'+ site_no + '\"\n')
+        f.write('        },\n')
+        host_ip_forth_octet = (host_ip_forth_octet+1)%256
+        curr_mac+=1
+        if host_ip_forth_octet==0:
+            network_address_third_octet+=1
+
+    for z in range(start_server, end_server + 1):
+        f.write('        {\n')
+        f.write('                \"description\": \"server\",\n')
+        f.write('                \"name\": \"sv' + str(z) + '\",\n')
+        f.write('                \"ip\": \"'+network+'.'+str(network_address_third_octet)+'.' + str(host_ip_forth_octet) + '/'+str(subnet_mask)+'\",\n')
+        f.write('                \"mac\": \"'+ get_MAC_address(curr_mac) + '\",\n')
+        f.write('                \"type\": \"resource\",\n')
+        f.write('                \"server_type\": \"HTTP\",\n')
+        f.write('                \"site\": \"' + site_no + '\"\n')
+
+        if z == end_server:
+            f.write('        }\n')
+            f.write('],\n')
+            rf.write("sv" + str(z) + "\n")
+        else:
+            f.write('        },\n')
+            rf.write("sv"+str(z)+",")
+
+        host_ip_forth_octet = (host_ip_forth_octet + 1) % 256
+        curr_mac+=1
+        if host_ip_forth_octet == 0:
+            network_address_third_octet += 1
+
+
+
+    switch_links =[('s1','s2'),('s1','s3'),('s1','s4'),('s1','s5'),('s1','s6'),('s1','s7'),('s2','s8'),('s2','s9'),('s2','s10'),('s2','s11'),('s2','s12'),('s3','s14'),('s3','s21'),('s4','s17'),('s4','s19'),('s5','s18'),('s5','s22'),('s6','s13'),('s6','s14'),('s6','s20'),('s6','s24'),('s7','s16'),('s7','s25'),('s8','s13'),('s8','s21'),('s9','s17'),('s9','s22'),('s10','s18'),('s10','s23'),('s11','s15'),('s11','s24'),('s12','s25')]
+
+    f.write('\"links\": [\n')
+
+    for s in switch_links:
+        f.write('        {\n')
+        f.write('                \"node1\": \"' + s[0] + '\",\n')
+        f.write('                \"linkopts\": {\"bw\": 1000},\n')
+        f.write('                \"node2\": \"' + s[1] + '\"\n')
+        f.write('        },\n')
+
+    counter = 12
+    host_counter = start_host
+    server_counter = start_server
+    hosts = end_host - start_host + 1
+    servers = end_server - start_server + 1
+    for a in range(1, hosts + servers + 1):
+        f.write('        {\n')
+        f.write('                \"node1\": \"' + switch_name[counter] + '\",\n')
+        f.write('                \"linkopts\": {\"bw\": 1000},\n')
+        if host_counter == end_host + 1:
+            f.write('                \"node2\": \"sv' + str(server_counter) + '\"\n')
+            server_counter += 1
+        else:
+            f.write('                \"node2\": \"h' + str(host_counter) + '\"\n')
+            host_counter += 1
+        
+        if a == hosts + servers:
+            f.write('        }\n')
+            f.write(']\n')
+            f.write('}')
+        else:
+            f.write('        },\n')
+
+        if counter == 24:
+            counter = 12
+        else:
+            counter += 1
+
+
+    f.close()
+    rf.close()
+
+
+if __name__ == '__main__':
+
+    main()

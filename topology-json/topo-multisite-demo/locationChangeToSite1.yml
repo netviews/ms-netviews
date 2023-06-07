@@ -1,0 +1,71 @@
+label: locationChangeToSite1
+rules:
+  - label: rule1
+    event:
+      subject:
+        anyUser:
+          - "admin"
+      policyClass:
+        eachOf:
+          - "location"
+      operations:
+        - assign to
+      target:
+        policyElements:
+          - name: site1
+            type: "UA"
+    response:
+      actions:
+        - condition!:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - function:
+                            name: current_userDevicePair_name
+                        - "U"
+                  - function:
+                      name: get_node
+                      args:
+                        - function:
+                            name: current_target_name
+                        - "UA"
+          assign:
+            - what:
+                function:
+                  name: current_userDevicePair
+                type: "U"
+                properties:
+                  k: v
+              where:
+                function:
+                  name: current_target
+                type: "UA"
+        - condition:
+            - function:
+                name: is_node_contained_in
+                args:
+                  - function:
+                      name: get_node
+                      args:
+                        - function:
+                            name: current_userDevicePair_name
+                        - "U"
+                  - function:
+                      name: get_node
+                      args:
+                        - "site2"
+                        - "UA"
+          delete:
+            assignments:
+              - what:
+                  function:
+                    name: current_userDevicePair
+                  type: "U"
+                  properties:
+                    k: v
+                where:
+                  name: "site2"
+                  type: "UA"

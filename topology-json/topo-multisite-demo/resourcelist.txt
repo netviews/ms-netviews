@@ -1,0 +1,2 @@
+site1:sv1,printer1,database1,svemail
+site2:sv2,sv3

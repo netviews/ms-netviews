@@ -1,0 +1,5 @@
+POLICYGRAPH,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/policies/policy.json
+PROHIBITION,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/prohibitions/prohibition.json
+OBLIGATION,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/obligations/locationChangeToSite1.yml,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/obligations/locationChangeToSite2.yml,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/obligations/locationChangeToSite3.yml,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/obligations/locationChangeToSite4.yml,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/obligations/locationChangeToSite5.yml
+IDENTITYMAPPING,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/five_site/identity_maps/identity_mapping.json
+RESOURCELIST,$HOME_DIRECTORY/netviews-code/topology-json/dataXchange_topology/resourcelist.txt

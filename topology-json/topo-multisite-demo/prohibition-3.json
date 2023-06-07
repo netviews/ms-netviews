@@ -1,0 +1,13 @@
+{
+  "prohibitions": [
+    {
+      "name": "aliceProhibition",
+      "subject": "z_AliceL1",
+      "containers": {"S1dev": false},
+      "ops": [
+          "tcp/22",
+	  "icmp/"
+      ]
+    }
+  ]
+}

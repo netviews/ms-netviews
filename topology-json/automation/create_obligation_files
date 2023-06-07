@@ -1,0 +1,57 @@
+#!/usr/bin/env python
+#########################################
+# Author: Iffat Anjum
+# Target: Obligation File Generation
+#########################################
+import argparse
+import sys
+
+def createObligation(folder_name, siteCount):
+	for s in range(1, int(siteCount)+1):
+		fileName = "./" + folder_name + "/" + "locationChangeToSite" + str(s) + ".yml"
+		file = open(fileName, "w")
+		file.write("label: locationChangeToSite"+str(s)+"\n")
+
+		#event pattern
+		file.write("rules:\n")
+		file.write("  - label: rule1\n" + "    event:\n" + "      subject:\n" + "        anyUser:\n" +
+					"          - \"admin\"\n" + "      policyClass:\n" + "        eachOf:\n" +
+					"          - \"location\"\n" + "      operations:\n" + "        - assign to\n" +
+				    "      target:\n" + "        policyElements:\n" + "          - name: site" + str(s) + "\n" +
+				    "            type: \"UA\"\n")
+
+		#respnse
+		#assign action
+		file.write("    response:\n" + "      actions:\n")
+		file.write("        - assign:\n");
+		file.write("            - what:\n" + "                function:\n" +
+				   "                  name: child_of_assign\n" + "                type: \"U\"\n" +
+				   "                properties:\n" + "                    k: v\n")
+		file.write("              where:\n" + "                function:\n" + "                  name: current_target\n" +
+					"                type: \"UA\"\n")
+
+		#delete actions
+
+		delstring = ("        - delete:\n" + "            assignments:\n" + "              - what:\n" +
+				  "                  function:\n" +
+				   "                    name: child_of_assign\n" + "                  type: \"U\"\n" +
+				   "                  properties:\n" + "                      k: v\n")
+		for ds in range(1, int(siteCount)+1):
+			if ds == s:
+				continue
+			file.write(delstring)
+			file.write("                where:\n" + "                  name: site" + str(ds) +
+					   "\n" + "                  type: \"UA\"\n")
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-d', '--folderName', type=str, required=True,
+						help='Name of directory')
+	parser.add_argument('-s', '--numberOfSites', type=int, required=True,
+						help='Number of sites desired')
+
+	args = parser.parse_args()
+
+	createObligation(args.folderName, args.numberOfSites)

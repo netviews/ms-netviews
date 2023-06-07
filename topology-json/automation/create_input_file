@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import subprocess
+
+
+def runCmd(cmd):
+    print("Running Command: " + cmd)
+    return subprocess.call(cmd, shell=True)
+
+def create_input_file(folder_name,sites_count):
+
+    f = open("./"+folder_name+"/"+"inputFiles.txt", "w")
+
+    f.write("POLICYGRAPH,"+os.environ.get('HOME')+"/netviews-code/topology-json/automation/"+folder_name+"/"+"policy.json"+"\n")
+    f.write("PROHIBITION,"+os.environ.get('HOME')+"/netviews-code/topology-json/automation/"+folder_name+"/"+"prohibition.json"+"\n")
+
+    obligation_string=""
+    for site_number in range(1, sites_count+1):
+        obligation_string+=","+os.environ.get('HOME')+"/netviews-code/topology-json/automation/"+folder_name+"/"+"locationChangeToSite"+str(site_number)+".yml"
+    f.write("OBLIGATION"+obligation_string+"\n")
+
+    f.write("IDENTITYMAPPING,"+os.environ.get('HOME')+"/netviews-code/topology-json/automation/"+folder_name+"/"+"identity_mapping.json"+"\n")
+    f.write("RESOURCELIST,"+os.environ.get('HOME')+"/netviews-code/topology-json/automation/"+folder_name+"/"+"resourcelist.txt"+"\n")
+    f.close()
+
+    # copying file to /tmp/
+    runCmd("scp ./" +folder_name+"/"+"inputFiles.txt" + " " + "/tmp/")
+
+def create_input_file_for_VM(folder_name, sites_count):
+
+    fileName="./" + folder_name + "/" + "inputFilesForVM.txt"
+    f = open(fileName, "w")
+
+    f.write("POLICYGRAPH,/tmp/policy.json" + "\n")
+    f.write("PROHIBITION,/tmp/prohibition.json" + "\n")
+
+    obligation_string = ""
+    for site_number in range(1, sites_count + 1):
+        obligation_string += ","+"/tmp/" + "locationChangeToSite" + str(site_number) + ".yml"
+    f.write("OBLIGATION" + obligation_string + "\n")
+
+    f.write("IDENTITYMAPPING,/tmp/identity_mapping.json" + "\n")
+    f.close()
+
+    # copying file to ~/netviews-code/scenarios
+    runCmd("scp "+ fileName+ " " + os.environ.get('HOME')+"/netviews-code/scenarios/inputFilesForVM.txt")
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-d', '--folderName', type=str, required=True,
+						help='name of the folder that has all the files')
+    parser.add_argument('-s', '--numberOfSites', type=int, required=True,
+                        help='Number of sites desired')
+    args = parser.parse_args()
+    create_input_file(folder_name=args.folderName,sites_count=args.numberOfSites)
+    create_input_file_for_VM(folder_name=args.folderName,sites_count=args.numberOfSites)
+
+if __name__ == '__main__':
+    main()

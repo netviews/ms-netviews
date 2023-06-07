@@ -1,0 +1,40 @@
+{
+  "server": [
+    {
+      "sv1": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_1_1.log &"
+      ]
+    },
+    {
+      "sv36": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_2_1.log &"
+      ]
+    },
+    {
+      "sv71": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_3_1.log &"
+      ]
+    },
+    {
+      "sv106": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_4_1.log &"
+      ]
+    },
+    {
+      "sv141": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_5_1.log &"
+      ]
+    }
+  ],
+  "client": [
+    {
+      "h1": [
+        "iperf3 -c 172.20.34.76 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_4.log &",
+	"iperf3 -c 172.20.35.76 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_5.log &",
+     	"iperf3 -c 172.20.33.76 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_3.log &",
+        "iperf3 -c 172.20.32.76 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_2.log &",
+	"iperf3 -c 172.20.31.76 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_1.log &"	
+      ]
+    }
+  ]
+}

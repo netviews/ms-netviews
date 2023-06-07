@@ -1,0 +1,109 @@
+{
+  "ip_base": "172.20.33.10/24",
+  "vpn": {
+    "ip": "172.20.33.1/24",
+    "switch": "s3"
+  },
+  "switches": [
+    {
+      "name": "s1",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s2",
+      "description": "switch"
+    },
+    {
+      "name": "s3",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s4",
+      "description": "switch"
+    },
+    {
+      "name": "s5",
+      "description": "edge-switch"
+    }
+  ],
+  "hosts": [
+    {
+      "description": "host",
+      "name": "pc8",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "sv5",
+      "server_type": "HTTP"
+    },
+    {
+      "description": "laptop",
+      "name": "l2",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "db2",
+      "server_type": "HTTP"
+    }
+  ],
+  "links": [
+    {
+      "node1": "pc8",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    },
+    {
+      "node1": "sv5",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    },
+    {
+      "node1": "l2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    },
+    {
+      "node1": "s1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s2"
+    },
+    {
+      "node1": "s2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s3"
+    },
+    {
+      "node1": "s3",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s4"
+    },
+    {
+      "node1": "s4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node2": "db2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node1": "s5"
+    }
+  ]
+}

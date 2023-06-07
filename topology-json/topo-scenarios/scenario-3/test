@@ -1,0 +1,250 @@
+  "assignments": [
+    {
+      "source": "AliceL1",
+      "target": "u1"
+    },  
+    {
+      "source": "BobL2",
+      "target": "u2"
+    },   
+    {
+      "source": "CharliePC7",
+      "target": "u3"
+    },  
+    {
+      "source": "DavidPC2",
+      "target": "u4"
+    },    
+    {
+      "source": "ElliePC4",
+      "target": "u5"
+    },
+    {
+      "source": "u1",
+      "target": "supportUser"
+    },
+    {
+      "source": "u2",
+      "target": "BSSupportUser"
+    },
+    {
+      "source": "u3",
+      "target": "DLSupportUser"
+    },
+    {
+      "source": "u4",
+      "target": "SJRDUser"
+    },  
+    {
+      "source": "u5",
+      "target": "SJSupportUser"
+    },
+    {
+      "source": "supportUser",
+      "target": "knownUser"
+    }, 
+    {
+      "source": "BSSupportUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "DLSupportUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "SJRDUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "SJSupportUser",
+      "target": "knownUser"
+    },
+    {
+      "source": "PC1",
+      "target": "SJPC1"
+    },  
+    {
+      "source": "server1",
+      "target": "SJServer1"
+    },  
+    {
+      "source": "PC5",
+      "target": "SJPC5"
+    },  
+    {
+      "source": "server2",
+      "target": "SJServer2"
+    },  
+    {
+      "source": "RandD",
+      "target": "SJRD"
+    },  
+    {
+      "source": "support",
+      "target": "SJSupport"
+    },  
+    {
+      "source": "email",
+      "target": "SJemail"
+    },    
+    {
+      "source": "server4",
+      "target": "DLServer4"
+    },  
+    {
+      "source": "PC8",
+      "target": "BSPC8"
+    },  
+    {
+      "source": "server5",
+      "target": "BSServer5"
+    }, 
+    {
+      "source": "SJPC1",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJServer1",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJPC5",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJServer2",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJRD",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJSupport",
+      "target": "SJResources"
+    }, 
+    {
+      "source": "SJemail",
+      "target": "globalResources"
+    }, 
+    {
+      "source": "DLServer4",
+      "target": "DLResources"
+    }, 
+    {
+      "source": "BSPC8",
+      "target": "BSResources"
+    }, 
+    {
+      "source": "BSServer5",
+      "target": "BSResources"
+    }, 
+    {
+      "source": "PC1",
+      "target": "SJRDGroup"
+    }, 
+    {
+      "source": "server1",
+      "target": "SJRDGroup"
+    }, 
+    {
+      "source": "PC5",
+      "target": "SJSupportGroup"
+    }, 
+    {
+      "source": "server2",
+      "target": "SJSupportGroup"
+    }, 
+    {
+      "source": "RandD",
+      "target": "SJDataCenter"
+    }, 
+    {
+      "source": "support",
+      "target": "SJDataCenter"
+    }, 
+    {
+      "source": "email",
+      "target": "SJDataCenter"
+    }, 
+    {
+      "source": "server4",
+      "target": "DLSupportGroup"
+    }, 
+    {
+      "source": "PC8",
+      "target": "BSSupportGroup"
+    }, 
+    {
+      "source": "server5",
+      "target": "BSSupportGroup"
+    }, 
+    {
+      "source": "SJRDGroup",
+      "target": "SJRoles"
+    },   
+    {
+      "source": "SJSupportGroup",
+      "target": "SJRoles"
+    },   
+    {
+      "source": "SJDataCenter",
+      "target": "SJRoles"
+    },   
+    {
+      "source": "SJRDGroup",
+      "target": "SJRoles"
+    },   
+    {
+      "source": "DLSupportGroup",
+      "target": "DLRoles"
+    },   
+    {
+      "source": "BSSupportGroup",
+      "target": "BSRoles"
+    },  
+    {
+      "source": "SJRoles",
+      "target": "role"
+    },   
+    {
+      "source": "DLRoles",
+      "target": "role"
+    },   
+    {
+      "source": "BSRoles",
+      "target": "role"
+    },
+    {
+      "source": "site1",
+      "target": "enterprise"
+    },
+    {
+      "source": "site2",
+      "target": "enterprise"
+    },
+    {
+      "source": "site3",
+      "target": "enterprise"
+    },
+    {
+      "source": "enterprise",
+      "target": "location"
+    },
+    {
+      "source": "SJResources",
+      "target": "location"
+    },
+    {
+      "source": "globalResources",
+      "target": "location"
+    },
+    {
+      "source": "DLResources",
+      "target": "location"
+    },
+    {
+      "source": "BSResources",
+      "target": "location"
+    }
+  ],

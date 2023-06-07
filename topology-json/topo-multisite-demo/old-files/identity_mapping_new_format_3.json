@@ -1,0 +1,174 @@
+{ 
+   "Users":
+   [
+      {
+         "User": "Alice",
+         "Devices": 
+         [
+            {
+               "Name": "AliceL1",
+               "Description": "Alice's Laptop",
+               "Type": "mobile",
+               "ID": "17",
+               "MAC": "00:00:00:00:00:ff",
+               "Attributes": 
+               [ 
+                  {
+                     "Location": "site1",
+                     "IP": "172.20.31.16",
+                     "Port": "AliceL1-eth0:s1-eth3"
+                  },
+                  {
+                     "Location": "site2",
+                     "IP": "172.20.32.20",
+                     "Port": "AliceL1-eth0:s2-eth3"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "User": "Bob",
+         "Devices": [
+            {
+               "Name": "BobPC3",
+               "Description": "Bob's PC",
+               "Type": "Host",
+               "ID": "8",
+               "MAC": "00:00:00:00:00:0a",
+               "Attributes": 
+               [ 
+                  {
+                     "Location": "site2",
+                     "IP": "172.20.32.10",
+                     "Port": "BobPC3-eth0:s2-eth1"
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "Objects": 
+   [
+      {
+         "Name": "sv2",
+         "Description": "server",
+         "Type": "Host",
+         "ID": "9",
+         "MAC": "00:00:00:00:00:0b",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site2",
+               "IP": "172.20.32.11",
+               "Port": "sv2-eth0:s3-eth1"
+            }
+         ]
+      },
+      {
+         "Name": "sv3",
+         "Description": "server",
+         "Type": "Host",
+         "ID": "10",
+         "MAC": "00:00:00:00:00:0c",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site2",
+               "IP": "172.20.32.12",
+               "Port": "sv3-eth0:s1-eth1"
+            }
+         ]
+      },
+      {
+         "Name": "database1",
+         "Description": "server",
+         "Type": "Host",
+         "ID": "11",
+         "MAC": "00:00:00:00:00:0a",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.10",
+               "Port": "database1-eth0:s4-eth1"
+            }
+         ]
+      },
+      {
+         "Name": "pc1",
+         "Description": "host",
+         "Type": "Host",
+         "ID": "12",
+         "MAC": "00:00:00:00:00:0b",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.11",
+               "Port": "pc1-eth0:s2-eth1"
+            }
+         ]
+      }, 
+      {
+         "Name": "pc2",
+         "Description": "host",
+         "Type": "Host",
+         "ID": "13",
+         "MAC": "00:00:00:00:00:0c",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.12",
+               "Port": "pc2-eth0:s3-eth2"
+            }
+         ]
+      }, 
+      {
+         "Name": "printer1",
+         "Description": "printer",
+         "Type": "Host",
+         "ID": "14",
+         "MAC": "00:00:00:00:00:0d",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.13",
+               "Port": "printer1-eth0:s3-eth1"
+            }
+         ]
+      }, 
+      {
+         "Name": "sv1",
+         "Description": "server",
+         "Type": "Host",
+         "ID": "15",
+         "MAC": "00:00:00:00:00:0e",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.14",
+               "Port": "sv1-eth0:s1-eth1"
+            }
+         ]
+      }, 
+      {
+         "Name": "svemail",
+         "Description": "server",
+         "Type": "Host",
+         "ID": "16",
+         "MAC": "00:00:00:00:04:0f",
+         "Attributes": 
+         [ 
+            {
+               "Location": "site1",
+               "IP": "172.20.31.85",
+               "Port": "svemail-eth0:s5-eth1"
+            }
+         ]
+      }
+   ]
+}

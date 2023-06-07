@@ -1,0 +1,68 @@
+#!/usr/bin/env python
+
+## USAGE NOTES:
+# BEFORE RUNNING, review if there are the appropriate amount of sites. Add or remove as necessary.
+import json
+import argparse
+from collections import OrderedDict
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--topology', type = str, required = True,
+         help = 'the topology to create the policy for')
+    args = parser.parse_args()
+
+    make_resource_list(args.topology)
+
+def make_resource_list(topology):
+    topology = open(topology, 'r')
+    topology = json.load(topology)
+
+    f = open('resourcelist.txt', 'w')
+    site1 = "site1:"
+    site2 = "site2:"
+    site3 = "site3:"
+    site4 = "site4:"
+    site5 = "site5:"
+
+    for obj in topology["hosts"]:
+        description = obj["description"]
+
+        if description == "server":
+            site_num = obj["ip"][8]
+            
+            if site_num == str(1):
+                site1 = site1 + obj["name"] + ","
+            elif site_num == str(2):
+                site2 = site2 + obj["name"] + ","
+            elif site_num == str(3):
+                site3 = site3 + obj["name"] + ","
+            elif site_num == str(4):
+                site4 = site4 + obj["name"] + ","
+            elif site_num == str(5):
+                site5 = site5 + obj["name"] + ","
+
+ #   if site1[len(site1) - 1] == ",":
+    site1 = site1[:len(site1) - 1]
+    
+ #   if site2[len(site2) - 1] == ",":
+    site2 = site2[:len(site2) - 1]
+
+ #   if site3[len(site3) - 1] == ",":
+    site3 = site3[:len(site3) - 1]
+
+    site4 = site4[:len(site4) - 1]
+
+    site5 = site5[:len(site5) - 1]
+
+    f.write(site1 + '\n')
+    f.write(site2 + '\n')
+    f.write(site3 + '\n')
+    f.write(site4 + '\n')
+    f.write(site5 + '\n')
+
+    f.close()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,221 @@
+{
+  "ip_base": "172.20.31.10/24",
+  "vpn": {
+    "ip": "172.20.31.1/24",
+    "switch": "s10"
+  },
+  "switches": [
+    {
+      "name": "s1",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s2",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s3",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s4",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s5",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s6",
+      "description": "switch"
+    },
+    {
+      "name": "s7",
+      "description": "switch"
+    },
+    {
+      "name": "s8",
+      "description": "switch"
+    },
+    {
+      "name": "s9",
+      "description": "switch"
+    },
+    {
+      "name": "s10",
+      "description": "switch"
+    }
+  ],
+  "hosts": [
+    {
+      "description": "host",
+      "name": "AliceL1",
+      "ip": "172.20.31.16/24",
+      "mac": "00:00:00:00:00:10",
+      "type": "user",
+      "server_type": null
+    },
+    {
+      "description": "host",
+      "name": "pc1",
+      "ip": "172.20.31.11/24",
+      "mac": "00:00:00:00:00:0b",
+      "type": "resource",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "sv1",
+      "ip": "172.20.31.14/24",
+      "mac": "00:00:00:00:00:0e",
+      "type": "resource",
+      "server_type": "ssh"
+    },
+    {
+      "description": "printer",
+      "name": "printer1",
+      "ip": "172.20.31.13/24",
+      "mac": "00:00:00:00:00:0d",
+      "type": "resource",
+      "server_type": "null"
+    },
+    {
+      "description": "host",
+      "name": "pc2",
+      "ip": "172.20.31.12/24",
+      "mac": "00:00:00:00:00:0c",
+      "type": "resource",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "database1",
+      "ip": "172.20.31.10/24",
+      "mac": "00:00:00:00:00:0a",
+      "type": "resource",
+      "server_type": "ssh"
+    },
+    {
+      "description": "server",
+      "name": "svemail",
+      "ip": "172.20.31.15/24",
+      "mac": "00:00:00:00:00:0f",
+      "type": "resource",
+      "server_type": "email"
+    }
+  ],
+  "links": [
+    {
+      "node1": "sv1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    },
+    {
+      "node1": "pc1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s2"
+    },
+    {
+      "node1": "printer1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s3"
+    },
+    {
+      "node1": "pc2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s3"
+    },
+    {
+      "node1": "database1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s4"
+    },
+    {
+      "node1": "svemail",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node1": "s4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s9"
+    },
+    {
+      "node1": "s5",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s9"
+    },
+    {
+      "node1": "s1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s6"
+    },
+    {
+      "node1": "s2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s7"
+    },
+    {
+      "node1": "s3",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s8"
+    },
+    {
+      "node1": "s6",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s10"
+    },
+    {
+      "node1": "s9",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s10"
+    },
+    {
+      "node1": "s7",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s10"
+    },
+    {
+      "node1": "s8",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s10"
+    },
+    {
+      "node1": "AliceL1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    }
+  ]
+}

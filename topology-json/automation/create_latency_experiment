@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+
+# sample usage: -hl ./five_site/topologies/enterprise_hosts.json -o ./five_site/experiments/experiment.json -c 325 -sv 175 -s 5 -l 5
+
+import json
+import argparse
+import re
+import subprocess
+import sys
+from collections import OrderedDict
+import random
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-hl', '--hostsListFile', type=str, required=True,
+                        help='the hostList file of enterprise to create the policy for')
+    parser.add_argument('-d', '--folderName', type=str, required=True,
+                        help='name of the folder that has all the files')
+    parser.add_argument('-participating_clients', '--clientsTakingPartInExperiment', type=int, required=True,
+                        help='the total number of clients taking part in the experiments')
+    parser.add_argument('-participating_servers', '--serversTakingPartInExperiment', type=int, required=True,
+                        help='the total number of servers taking part in the experiments')
+    parser.add_argument('-r', '--rounds', type=int, required=False, default=100,
+                        help='the number of rounds of experiment')
+    args = parser.parse_args()
+
+    runCmd("mkdir "+"./"+args.folderName+ "/latency_experiments")
+    for round in range(1,args.rounds+1):
+        doit(args.hostsListFile, args.folderName,args.clientsTakingPartInExperiment, args.serversTakingPartInExperiment,round)
+
+
+def runCmd(cmd):
+	print("Running Command: "+cmd)
+	return subprocess.call(cmd, shell=True)
+
+def doit(topology, folderName,clients_taking_part, servers_taking_part,round_number):
+
+    outputFile="./"+folderName+ "/latency_experiments/" + "latency_experiment_round"+str(round_number)+".json"
+    topology = open(topology, 'r')
+    topology = json.load(topology)
+
+    info = OrderedDict()
+    info["connections"]=[]
+    info["type"]="client-server"
+
+    clients_and_servers=OrderedDict()
+    info["connections"].append(clients_and_servers)
+
+    info["client_command"]="mtr -n -l -P <PORT> -c 60 <SERVER>"
+    info["server_command"]=""
+
+    hosts=[h["name"] for h in topology["hosts"] if h["type"]=="user"]
+    servers=[h["ip"].split("/")[0] for h in topology["hosts"] if h["type"]=="resource"]
+
+    clients_and_servers["clients"] = random.sample(hosts,k=clients_taking_part)
+    clients_and_servers["servers"] = random.sample(servers,k=servers_taking_part)
+
+    with open(outputFile, 'w+') as f:
+        json.dump(info, f, indent=4)
+
+
+if __name__ == '__main__':
+    main()

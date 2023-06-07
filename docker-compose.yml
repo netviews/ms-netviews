@@ -1,0 +1,27 @@
+networks:
+  mynet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.55.0/24
+          gateway: 192.168.55.250
+
+version: "2.4"
+services:
+  vm1:
+    build: .
+    extra_hosts:
+        - "host.docker.internal:192.168.55.250"
+    networks:
+      mynet:
+        ipv4_address: 192.168.55.1
+    privileged: true
+  vm2:
+    build: .
+    extra_hosts:
+        - "host.docker.internal:192.168.55.250"
+    networks:
+      mynet:
+        ipv4_address: 192.168.55.2
+    privileged: true

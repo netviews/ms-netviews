@@ -1,0 +1,268 @@
+{
+  "ip_base": "172.20.31.10/24",
+  "vpn": {
+    "ip": "172.20.31.1/24",
+    "switch": "s1"
+  },
+  "switches": [
+    {
+      "name": "s1",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s2",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s3",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s4",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s5",
+      "description": "edge-switch"
+    },
+    {
+      "name": "s6",
+      "description": "mid-switch"
+    },
+    {
+      "name": "s7",
+      "description": "mid-switch"
+    },
+    {
+      "name": "s8",
+      "description": "mid-switch"
+    },
+    {
+      "name": "s9",
+      "description": "mid-switch"
+    }
+  ],
+  "hosts": [
+    {
+      "description": "host",
+      "name": "Jack-PC2",
+      "ip": "172.20.31.16",
+      "mac": "00:00:00:00:00:10",
+      "type": "user",
+      "server_type": null
+    },
+    {
+      "description": "host",
+      "name": "Linda-PC1",
+      "ip": "172.20.31.11",
+      "mac": "00:00:00:00:00:0b",
+      "type": "user",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "sv1",
+      "ip": "172.20.31.14",
+      "mac": "00:00:00:00:00:0e",
+      "type": "resource",
+      "server_type": "ssh"
+    },
+    {
+      "description": "printer",
+      "name": "Wendy-PC4",
+      "ip": "172.20.31.13",
+      "mac": "00:00:00:00:00:0d",
+      "type": "user",
+      "server_type": "null"
+    },
+    {
+      "description": "host",
+      "name": "Tom-PC5",
+      "ip": "172.20.31.12",
+      "mac": "00:00:00:00:00:0c",
+      "type": "user",
+      "server_type": null
+    },
+    {
+      "description": "server",
+      "name": "sv2",
+      "ip": "172.20.31.10",
+      "mac": "00:00:00:00:00:0a",
+      "type": "resource",
+      "server_type": "ssh"
+    },
+    {
+      "description": "server",
+      "name": "RandD",
+      "ip": "172.20.31.15",
+      "mac": "00:00:00:00:00:0f",
+      "type": "resource",
+      "server_type": "server"
+    },
+    {
+      "description": "server",
+      "name": "support",
+      "ip": "172.20.31.30",
+      "mac": "00:00:00:00:00:ff",
+      "type": "resource",
+      "server_type": "ssh"
+    },
+    {
+      "description": "server",
+      "name": "email",
+      "ip": "172.20.31.28",
+      "mac": "00:00:00:00:00:ef",
+      "type": "resource",
+      "server_type": "email"
+    }
+  ],
+  "links": [
+    {
+      "node1": "Jack-PC2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s6"
+    },
+    {
+      "node1": "Linda-PC1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s6"
+    },
+    {
+      "node1": "sv1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s6"
+    },
+    {
+      "node1": "s6",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s3"
+    },
+    {
+      "node1": "Wendy-PC4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s7"
+    },
+    {
+      "node1": "Tom-PC5",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s7"
+    },
+    {
+      "node1": "sv2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s7"
+    },
+    {
+      "node1": "s7",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s2"
+    },
+    {
+      "node1": "RandD",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s8"
+    },
+    {
+      "node1": "support",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s8"
+    },
+    {
+      "node1": "email",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s9"
+    },
+    {
+      "node1": "s8",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s4"
+    },
+    {
+      "node1": "s9",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s4"
+    },
+    {
+      "node1": "s4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s3"
+    },
+    {
+      "node1": "s4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node1": "s4",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node1": "s3",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s2"
+    },
+    {
+      "node1": "s3",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node1": "s2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    },
+    {
+      "node1": "s2",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s1"
+    },
+    {
+      "node1": "s1",
+      "linkopts": {
+        "bw": 1000
+      },
+      "node2": "s5"
+    }
+  ]
+}

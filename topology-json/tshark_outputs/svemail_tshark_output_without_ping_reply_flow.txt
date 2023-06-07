@@ -1,0 +1,100 @@
+# Tshark output with these conditions:
+# - Topology: 2 site Dan's demo topologies
+# - Command: BobPC3 (172.20.32.10) ping svemail (172.20.31.15)
+# - Flow Rules preinstalled on ALL switches in: 
+     # site1: if src=172.20.31.10/24, and dst=172.20.32.10/24, action=NORMAL
+     # site2: if src=172.20.32.10/24, and dst=172.20.31.10/24, action=NORMAL
+# Ping was unsuccessful (did not have ping reply flow rule installed)
+
+    1 0.000000000 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+    2 0.000038493 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+    3 3.097386862 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+    4 3.097426996 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+    5 6.195717827 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+    6 6.195815758 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+    7 9.300216690 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+    8 9.300256604 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+    9 12.398469133 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   10 12.398511734 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   11 15.499234991 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   12 15.499275991 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   13 18.605986392 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   14 18.606007969 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   15 21.703257963 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   16 21.703318452 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   17 24.798839916 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   18 24.798879292 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   19 27.897859645 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   20 27.897907526 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   21 30.998870257 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   22 30.998922459 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   23 34.097482781 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   24 34.097535504 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   25 37.198756024 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   26 37.198782089 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   27 40.297896974 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   28 40.297920405 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   29 43.395258678 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   30 43.395280039 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   31 46.496406924 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   32 46.496553003 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   33 49.600540852 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   34 49.600603600 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   35 52.698964833 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   36 52.699032979 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   37 55.795970712 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   38 55.796009368 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   39 58.898756096 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   40 58.898777913 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   41 61.997599937 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   42 61.997642123 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   43 62.130480620 fe80::200:ff:fe00:f → ff02::2      ICMPv6 70 Router Solicitation from 00:00:00:00:00:0f
+   44 62.196259104 2e:95:e6:2e:9b:a9 → Broadcast    ARP 42 Who has 172.20.31.15? Tell 172.20.31.1
+   45 62.196307892 00:00:00_00:00:0f → 2e:95:e6:2e:9b:a9 ARP 42 172.20.31.15 is at 00:00:00:00:00:0f
+   46 62.284895931 172.20.32.10 → 172.20.31.15 ICMP 98 Echo (ping) request  id=0x0a1f, seq=1/256, ttl=62
+   47 62.284990591 172.20.31.15 → 172.20.32.10 ICMP 98 Echo (ping) reply    id=0x0a1f, seq=1/256, ttl=64 (request in 46)
+   48 65.099518606 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   49 65.099559232 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   50 67.506462351 00:00:00_00:00:0f → 2e:95:e6:2e:9b:a9 ARP 42 Who has 172.20.31.1? Tell 172.20.31.15
+   51 67.513051027 2e:95:e6:2e:9b:a9 → 00:00:00_00:00:0f ARP 42 172.20.31.1 is at 2e:95:e6:2e:9b:a9
+   52 68.200081961 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   53 68.200124286 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   54 71.296603378 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   55 71.296644308 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   56 74.399414968 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   57 74.399439524 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   58 77.503399141 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   59 77.503455178 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   60 80.598361256 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   61 80.598378248 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   62 83.698544448 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   63 83.698607045 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   64 86.802959697 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   65 86.802982810 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   66 89.897816747 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   67 89.897840309 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   68 92.996178562 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   69 92.996218883 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   70 96.095473189 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   71 96.095513658 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   72 99.202198070 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   73 99.202241867 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   74 102.297827456 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   75 102.297894518 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   76 105.399443271 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   77 105.399533267 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   78 108.498200976 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   79 108.501400314 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   80 111.596530984 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   81 111.596598799 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   82 114.696326408 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   83 114.699517047 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   84 117.798761569 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   85 117.798803070 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   86 120.898345088 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   87 120.898419985 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   88 123.996487796 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   89 123.996527025 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   90 127.095724686 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120 
+   91 127.095764179 02:eb:9f:67:c9:42 → Broadcast    0x8942 139 Ethernet II
+   92 130.198289664 02:eb:9f:67:c9:42 → LLDP_Multicast LLDP 139 MA/00:00:00:00:00:05 PC/31 120
