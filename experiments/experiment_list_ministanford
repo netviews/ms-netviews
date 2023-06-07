@@ -1,0 +1,1 @@
+fwd:sudo ./mininet_script -t ministanford_topology_file.json -c run -e 57_hosts_test -r 1 -s 100 -d ./rerun_02_16_21/cisco -a org.onosproject.fwd

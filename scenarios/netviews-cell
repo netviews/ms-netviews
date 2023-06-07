@@ -1,0 +1,5 @@
+export OC1="192.168.55.1"
+export OC2="192.168.55.2"
+export ONOS_APPS="drivers,openflow,proxyarp,optical,bgprouter"
+export ONOS_USER=root
+export ONOS_GROUP=ubuntu

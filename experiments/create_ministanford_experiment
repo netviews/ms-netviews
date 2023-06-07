@@ -1,0 +1,165 @@
+#!/usr/bin/env python
+
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.node import CPULimitedHost
+from mininet.link import TCLink
+from mininet.util import dumpNodeConnections, dumpNetConnections, waitListening
+from mininet.log import setLogLevel, output, info
+from mininet.node import RemoteController
+from mininet.cli import CLI
+import json
+import sys
+import argparse
+import time
+import os
+import datetime
+import pexpect
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-H', '--hosts', type=int, required=True,
+            help='amount of hosts in the ministanford topology')
+    parser.add_argument('-s', '--servers', type=int, required=True,
+            help='amount of servers in the ministanford topology')
+    parser.add_argument('-n', '--name', type=str, required=True,
+            help='name of file to be outputted')
+    parser.add_argument('-t','--topology', type=str, required=True,
+            help='the topology to base experiment file off of')
+    #parser.add_argument('-i', '--starting_ip', type=str, required=True,
+     #       help='the starting ips of the servers')
+
+    args = parser.parse_args()
+
+    make_file(args.name, args.hosts, args.servers, args.topology)
+
+
+def make_file(name, hosts, servers, topology):
+    # opens topology to make experiment file from
+    topology = open(topology, 'r')
+    # loads it as a json file
+    topo = json.load(topology)
+
+    # create a new file called 'server_file' which will contain the 'server' section of the experiment file
+    server_file = open('server_file', "w")
+    # writes the first line of the experiment file
+    server_file.write("{\n")
+    # writes the server subsection header of the experiment file
+    server_file.write("  \"server\": [\n")
+
+    # for each 'host' in the topology
+    server_counter = 0
+    
+
+    # create a new file called 'host_file' which will contain the 'clients' section of the experiment file
+    host_file = open('hosts_file', 'w')
+    # writes the clients subsection header of the experiment file
+    host_file.write("  \"client\": [\n")
+
+    host_counter = 0
+    port_for_hosts = 81
+
+   # first_chunk = 10
+   # second_chunk = 0
+   # third_chunk = 0
+   # fourth_chunk = 1
+    
+    for item in topo['hosts']:
+        # if its a server
+        if item['description'] == 'server':
+            server_counter += 1
+            port = 81
+            server_file.write("    {\"" + item['name'] + "\": [\n")
+            for x in range(1, hosts + 1):
+                if x == hosts:
+                    server_file.write("      \"iperf3 -s -p " + str(port) + " >& /tmp/experiments/server_throughput_" + str(server_counter) + "_" + str(x) + ".log &\"\n")
+                #    server_file.write("      \"netserver -p " + str(port) + " >& /tmp/experiments/server_throughput_" + str(server_counter) + "_" + str(x) + ".log &\"\n")
+                else:
+                    server_file.write("      \"iperf3 -s -p " + str(port) + " >& /tmp/experiments/server_throughput_" + str(server_counter) + "_" + str(x) + ".log &\",\n")
+                #    server_file.write("      \"netserver -p " + str(port) + " >& /tmp/experiments/server_throughput_" + str(server_counter) + "_" + str(x) + ".log &\",\n")
+                port = port + 1
+            
+            if item['name'][(len(item['name']) - len(str(servers))):] == str(servers):
+                server_file.write("    ]}\n")
+                server_file.write("  ],\n")
+            else:
+                server_file.write("    ]},\n")
+
+        # otherwise its a host
+        else:
+            #port_for_hosts = 80
+            host_counter += 1
+
+            host_file.write("    {\"" + item['name'] + "\": [\n")
+    
+            first_chunk = 10
+            second_chunk = 0
+            third_chunk = 0
+            fourth_chunk = 71
+            print(first_chunk)
+            print(second_chunk)
+            print(third_chunk)
+            print(fourth_chunk)
+            #server_ip = str(first_chunk) + '.' + str(second_chunk) + '.' + str(third_chunk) + '.' + str(fourth_chunk)
+                
+            for y in range(1, servers + 1):
+                server_ip = str(first_chunk) + '.' + str(second_chunk) + '.' + str(third_chunk) + '.' + str(fourth_chunk)
+                print(server_ip)
+                if y == servers:
+                    host_file.write("      \"iperf3 -c " + server_ip + " -p " + str(port_for_hosts) + " -P 1 -V -t 60 >> /tmp/experiments/client_throughput_" + str(host_counter) + "_" + str(y) + ".log &\"\n")
+                #    host_file.write("      \"netperf -H " + server_ip + " -p " + str(port_for_hosts) + " >> /tmp/experiments/client_throughput_" + str(host_counter) + "_" + str(y) + ".log &\"\n")
+                else: 
+                    host_file.write("      \"iperf3 -c " + server_ip + " -p " + str(port_for_hosts) + " -P 1 -V -t 60 >> /tmp/experiments/client_throughput_" + str(host_counter) + "_" + str(y) + ".log &\",\n")
+                #    host_file.write("      \"netperf -H " + server_ip + " -p " + str(port_for_hosts) + " >> /tmp/experiments/client_throughput_" + str(host_counter) + "_" + str(y) + ".log &\",\n")
+                
+                if fourth_chunk == 255:
+                    third_chunk += 1
+                    fourth_chunk = 1
+                else:
+                    fourth_chunk += 1
+
+
+             #   server_ip = str(first_chunk) + '.' + str(second_chunk) + '.' + str(third_chunk) + '.' + str(fourth_chunk)
+                
+            #print(server_ip)
+            if item['name'][(len(item['name']) - len(str(hosts))):] == str(hosts):
+                host_file.write("    ]}\n")
+                host_file.write("  ]\n")
+                host_file.write("}")
+                
+            else:
+                host_file.write("    ]},\n")
+            port_for_hosts += 1
+            
+
+    host_file.close()
+
+    server_file.close()
+
+    filenames = ['server_file', 'hosts_file']
+    with open(name, 'w') as outfile:
+        for fname in filenames:
+            with open(fname) as infile:
+                for line in infile:
+                    outfile.write(line)
+
+    # create a new file called 'host file' which will contain the 'clients' section of the experiment file
+    #host_file = open('host_file', "w")
+    #host_file.write("\"client\": [\n")
+    #host_ip = '10.0.0.1'
+    #port = 80
+    #for host in topo['hosts']:
+      # print(str(host['name']))
+     #  if str(host['name'])[:1] == 'h':
+       #    host_file.write("     {\"" + host['name'] + "\": [\n")
+        #   for s in range(0, servers):
+         #      host_file.write("       netperf -H " + server_ip + " -p " + str(port) + "-l 60")
+
+    #host_file.close()
+    #f = open(name, "w")
+    #f.close()
+   # open(name, "w") 
+    #f.write
+
+if __name__ == "__main__":
+    main()

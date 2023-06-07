@@ -1,0 +1,110 @@
+#!/usr/bin/env python
+
+import argparse
+import json
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--topology', type = str, required = True,
+         help = 'the topology to create the policy for')
+    parser.add_argument('-o', '--output', type = str, required = True,
+         help = 'the name of the output file')
+    parser.add_argument('-H', '--hosts', type = int, required = True,
+         help = 'the number of hosts in the topology')
+    args = parser.parse_args()
+
+    make_policy(args.topology, args.output, args.hosts)
+
+def make_policy(topology, output,hosts):
+    x = open(topology, 'r')
+    f = open(output, 'w')
+    f.write('{\n')
+    f.write('\"nodes\": [\n')
+    f.write('        {\n')
+    f.write('                \"name\": \"department\",\n')
+    f.write('                \"type\": \"PC\",\n')
+    f.write('                \"properties\": {}\n')
+    f.write('        },\n')
+        
+    f.write('        {\n')
+    f.write('                \"name\": \"localUA\",\n')
+    f.write('                \"type\": \"UA\",\n')
+    f.write('                \"properties\": {}\n')
+    f.write('        },\n')
+        
+    f.write('        {\n')
+    f.write('                \"name\": \"generalOA\",\n')
+    f.write('                \"type\": \"OA\",\n')
+    f.write('                \"properties\": {}\n')
+    f.write('        },\n')
+
+    t = json.load(x)
+
+    for host in t["hosts"]:
+        if host["name"][0] == 'h':
+            f.write('        {\n')
+            f.write('                \"name\": \"' + host["name"] + '\",\n')
+            f.write('                \"type\": \"U\",\n')
+            f.write('                \"properties\": {}\n')
+            f.write('        },\n')
+
+        else: 
+            f.write('        {\n')
+            f.write('                \"name\": \"' + host["name"] + '\",\n')
+            f.write('                \"type\": \"O\",\n')
+            f.write('                \"properties\": {}\n')
+            if host == t["hosts"][len(t["hosts"]) - 1]:
+                f.write('        }\n')
+                f.write('],\n')
+            else:
+                f.write('        },\n')
+
+
+    f.write('\"assignments\": [\n')
+    f.write('        {\n')
+    f.write('                \"source\": \"localUA\",\n')
+    f.write('                \"target\": \"department\"\n')
+    f.write('        },\n')
+
+    f.write('        {\n')
+    f.write('                \"source\": \"generalOA\",\n')
+    f.write('                \"target\": \"department\"\n')
+    f.write('        },\n')
+    
+    for h in t["hosts"]:
+        if h["name"][0] == 'h':
+            f.write('        {\n')
+            f.write('                \"source\": \"' + h["name"] + '\",\n')
+            f.write('                \"target\": \"localUA\"\n')
+            f.write('        },\n')
+        else:
+            f.write('        {\n')
+            f.write('                \"source\": \"' + h["name"] + '\",\n')
+            f.write('                \"target\": \"generalOA\"\n')
+
+            if h == t["hosts"][len(t["hosts"]) - 1]:
+                f.write('        }\n')
+                f.write('],\n')
+            else:
+                f.write('        },\n')
+
+    f.write('\"associations\": [\n')
+    f.write('        {\n')
+    f.write('                \"source\": \"localUA\",\n')
+    f.write('                \"target\": \"generalOA\",\n')
+    f.write('                \"operations\": [')
+
+    for x in range(hosts + 2):
+        if x == hosts + 1:
+            f.write('\"tcp/' + str(x + 80) + '\"]\n')
+        else:
+            f.write('\"tcp/' + str(x + 80) + '\",')
+
+    f.write('        }\n')
+    f.write(']}')
+
+    f.close()
+
+
+if __name__ == '__main__':
+    main()

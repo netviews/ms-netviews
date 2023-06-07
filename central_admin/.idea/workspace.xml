@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b02802ca-0494-4431-870f-530f0218a074" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../PolicyCheckerAndSlicer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../PolicyCheckerAndSlicer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../netviews-identity-mapping/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../netviews-identity-mapping/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../netviews-obligation/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../netviews-obligation/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site1policy.json" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site1policy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site2policy.json" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site2policy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site3policy.json" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site3policy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site4policy.json" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site4policy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site5policy.json" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/site5policy.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/src/main/java/netviews/DefaultAdminPolicyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/src/main/java/netviews/DefaultAdminPolicyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/src/main/java/netviews/PolicySliceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/src/main/java/netviews/PolicySliceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/target/policy-chekcer-slicer-1.3.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/PolicySlicerMinimizationRate/target/policy-chekcer-slicer-1.3.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/checkerExperiment_ministandford_5sites.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_binaryTree_policy" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_binaryTree_policy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_enterprise_hosts_file" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_enterprise_hosts_file" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_ministanford_topology" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_ministanford_topology" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_obligation_files" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/create_obligation_files" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/generate_related_files.py" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/generate_related_files.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/slicerExperiment_ministanford_5sites.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../overhead-experiment-policychecker-policyslicer/automationMinimizationRate/slicerExperiment_ministanford_5sites.sh" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/watch">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+              <folding>
+                <element signature="e#105#116#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/watchdog_for_individual_sites">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/location_log.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/distribute_policies">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="12" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/coordinate_experiments.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/prev_location_log.json">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/server.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/trigger-obligations">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
+              <folding>
+                <element signature="e#113#124#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="468" />
+    <option name="y" value="25" />
+    <option name="width" value="1452" />
+    <option name="height" value="1055" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="central_admin" type="b2602c69:ProjectViewProjectNode" />
+              <item name="central_admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.toSaveIncludeLibraries" value="false" />
+    <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1682442509494" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.43678162" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b02802ca-0494-4431-870f-530f0218a074" name="Default Changelist" comment="" />
+      <created>1682441590238</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1682441590238</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="468" y="25" width="1452" height="1055" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2494759" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="2" />
+      <window_info id="Designer" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Capture Tool" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Inspection Results" order="7" visible="true" weight="0.32976446" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Maven" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+    </layout>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/watch">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="23" lean-forward="true" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <folding>
+            <element signature="e#105#116#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/watchdog_for_individual_sites">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/trigger-obligations">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+          <folding>
+            <element signature="e#113#124#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/prev_location_log.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/location_log.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/distribute_policies">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="12" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/coordinate_experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="5" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.43678162" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.41954023" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.43678162" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.43678162" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>central_admin</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.41954023" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

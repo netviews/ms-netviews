@@ -1,0 +1,23 @@
+{
+  "type": "client-server",
+  "connections": [
+    {
+      "clients": ["pc1", "pc2", "pc3", "pc4", "pc6", "pc7"],
+      "servers": ["172.20.33.13"]
+    },
+    {
+      "clients": ["pc1", "pc2", "pc3", "pc4"],
+      "servers": ["172.20.32.14"]
+    },
+    {
+      "clients": ["pc1", "pc2", "pc3", "pc4", "pc8"],
+      "servers": ["172.20.32.13"]
+    },
+    {
+      "clients": ["pc6", "pc7", "pc8"],
+      "servers": ["172.20.31.16", "172.20.31.17"]
+    }
+  ],
+  "server_command": "iperf3 -s -p <PORT>",
+  "client_command": "iperf3 -c <SERVER> -p <PORT> -P 1 -V -t 60"
+}

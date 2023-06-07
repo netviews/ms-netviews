@@ -1,0 +1,26 @@
+{
+  "server": [],
+  "client": [
+    {
+      "pc1": [
+        "ping -c 3 172.20.33.13 >> /tmp/experiments/ping_site1.log &",
+        "ping -c 3 172.20.32.13 >> /tmp/experiments/ping_site1.log &",
+        "ping -c 3 172.20.31.16 >> /tmp/experiments/ping_site1.log &"
+      ]
+    },
+    {
+      "pc6": [
+        "ping -c 3 172.20.33.13 >> /tmp/experiments/ping_site2.log &",
+        "ping -c 3 172.20.32.13 >> /tmp/experiments/ping_site2.log &",
+        "ping -c 3 172.20.31.16 >> /tmp/experiments/ping_site2.log &"
+      ]
+    },
+    {
+      "pc8": [
+        "ping -c 3 172.20.33.13 >> /tmp/experiments/ping_site3.log &",
+        "ping -c 3 172.20.32.13 >> /tmp/experiments/ping_site3.log &",
+        "ping -c 3 172.20.31.16 >> /tmp/experiments/ping_site3.log &"
+      ]
+    }
+  ]
+}

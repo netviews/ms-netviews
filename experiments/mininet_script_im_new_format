@@ -1,0 +1,639 @@
+#!/usr/bin/env python3
+
+"""
+MUST BE RUN WITH `sudo -E` TO WORK CORRECTLY
+This script reads topology information from a JSON file and
+either creates another JSON needed for Policy or runs the Mininet network.
+To generate Topo info:
+      sudo python script.py <jsonfilename> generate
+ e.g. sudo python script.py ref_enterprise_topo.txt generate
+To run Mininet network:
+      sudo python script.py <jsonfilename> run
+ e.g. sudo python script.py ref_enterprise_topo.txt run
+"h13": "iperf3 -s -p 80 >& /tmp/server.log &",
+"h10": "iperf3 -c 10.0.0.13 -p 80 >& /tmp/client.log &"
+USING WITH LATENCY:
+- Add -l argument with integer latency to be added.
+- Usage example with Ethans multisite set up script: 
+      ./scenarios/run_multisite_experiment -t topology-json/topo-cisco-multisite/topo-cisco-site 
+      -e experiments/experiment_basic_multisite_cisco -m experiments/mininet_script -d fwd -a org.onosproject.fwd -M '"-s 60 -r 1 -l 500"'
+- Latency value defaults to 0.
+"""
+
+from mininet.topo import Topo
+from mininet.net import Mininet
+from mininet.node import CPULimitedHost
+from mininet.link import TCLink
+from mininet.util import dumpNodeConnections, dumpNetConnections, waitListening
+from mininet.log import setLogLevel, output, info
+from mininet.node import RemoteController
+from mininet.cli import CLI
+import json
+import sys
+import argparse
+import time
+import os
+import datetime
+import pexpect
+import subprocess
+import logging
+import socket
+import socketserver
+import threading
+from contextlib import contextmanager
+from datetime import datetime
+from collections import OrderedDict
+from datetime import datetime
+import time
+import random
+
+PORT_START = 80
+
+experiments = False
+topology = None
+descriptions = {}
+rounds = 1
+timeout = 10
+after_timeout = 10
+onos_app = ''
+flush = False
+interval = 0
+onos_cli = ''
+identity_mapping_file_name=""
+
+LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+handler = logging.FileHandler("/tmp/mininet_script.log")
+handler.setLevel(logging.DEBUG)
+
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(message)s')
+handler.setFormatter(formatter)
+
+LOGGER.addHandler(handler)
+LOGGER.addHandler(ch)
+LOGGER.info('Mininet script started.')
+
+
+def current_milli_time():
+    return round(time.time() * 1000)
+
+def main():
+    parser = argparse.ArgumentParser(
+        description = 'Run a NetViews experiment')
+    parser.add_argument('-t', '--topology', type = str, required = True,
+        help = 'the path to a topology to be run on the Mininet script')
+    parser.add_argument('-c', '--command', type = str, required = True,
+        help = 'desired command (run or generate)')
+    parser.add_argument('-p', '--ping-gateway', action="store_true",
+        help = 'Ping the gateway to open ICMP connection. This is a hack')
+    parser.add_argument('-e', '--experiments', type = str, required = False,
+        help = 'the path to the experiment file to run')
+    parser.add_argument('-r', '--rounds', type = int, default = 1,
+        help = 'rounds of client experiments to run')
+    parser.add_argument('-s', '--seconds', type = int, default = 10,
+        help = 'timeout, in seconds, between rounds of experiments')
+    parser.add_argument('-A', '--after-timeout', type = int, default = 0,
+        help = 'timeout, in seconds, after flushing the network')
+    parser.add_argument('-d', '--destination', type = str, required = True,
+        help = 'destination directory path')
+    parser.add_argument('-a', '--app', type = str, required = False,
+        help = 'onos app name (i.e. org.onosproject.fwd)')
+    parser.add_argument('-f', '--flush', action = 'store_true',
+        help = 'Will flush intents, flow rules, topology, etc. between runs if set')
+    parser.add_argument('-i', '--interval', type = int, default = 0, required = False,
+        help = 'Optional flush interval (in seconds). I.e. a 10 second flow with 2 second flush interval will flush the network 5 times')
+    parser.add_argument('-w', '--wait', type = float, default = 0, required = False,
+        help = 'Optional wait interval (in seconds) between experiments. I.E. -w 1 will wait 1 second between each client command being run')
+    parser.add_argument('-l', '--latency', type = float, default = 0, required=False,
+            help='simulates latency (in milliseconds) on the specified interface')
+    parser.add_argument('-I', '--interfaces', type = str, default = [], nargs="+", required=False,
+            help='Interfaces to apply latency to')
+    parser.add_argument('-T', '--tunnel-type', type=str, choices=["wireguard", "gre", "none"], default="none",
+            help='What type of tunnel to use between sites, if any.')
+    parser.add_argument('-z', '--multisite', type=bool, default=False, required=False,
+            help='whether this is being used for a multsite setting or not.')
+    parser.add_argument('-im', '--identity-mapping-file-name', type=str, default="", required=False,
+                        help='file name of the identity mapping file')
+
+    args = parser.parse_args()
+
+    global topology
+    topology = args.topology
+
+    global rounds
+    rounds = args.rounds
+
+    global timeout
+    timeout = args.seconds
+
+    global after_timeout
+    after_timeout = args.after_timeout
+
+    global destination
+    destination = args.destination
+
+    global onos_app
+    onos_app = args.app
+
+    global flush
+    flush = args.flush
+
+    global interval
+    interval = args.interval
+
+    global wait
+    wait = args.wait
+
+    global latency
+    latency = args.latency
+      
+    global INTERFACES
+    INTERFACES = args.interfaces
+
+    global TUNNEL_TYPE
+    TUNNEL_TYPE = args.tunnel_type
+
+    global PING_GATEWAY
+    PING_GATEWAY = args.ping_gateway
+
+    global multisite
+    multisite = args.multisite
+
+    global command
+    command = args.command
+
+    global identity_mapping_file_name
+    identity_mapping_file_name=args.identity_mapping_file_name
+
+    if args.experiments:
+        with open(args.experiments) as file:
+            global experiments
+            experiments = json.load(file)
+
+    if args.command == 'generate':
+        with setupMininet() as net:
+            createJSON(net,identity_mapping_file_name)
+    elif args.command == 'run':
+        setLogLevel('info')
+        with setupMininet() as net:
+            runTopo(experiments, net)
+    elif args.command == 'cli':
+        setLogLevel('info')
+        with setupMininet() as net:
+            CLI(net)
+    else:
+        print('Invalid command')
+        sys.exit()
+
+
+class GenerateTopo(Topo):
+
+    "Reading JSON Object and generating the Mininet topology"
+
+    def addSwitch( self, name, **opts ):
+        kwargs = { 'protocols': 'OpenFlow13' }
+        kwargs.update(opts)
+        return super(GenerateTopo, self).addSwitch(name, **kwargs)
+
+    def build( self ):
+
+        with open(topology, 'r') as f:
+            topo = json.load(f)
+
+            for switch in topo['switches']:
+                self.addSwitch(switch['name'])
+                descriptions[switch['name']] = switch['description']
+
+            for host in topo['hosts']:
+                if "vpn" in topo:
+                    self.addHost(host['name'], ip=host['ip'], mac=host['mac'], defaultRoute="via {}".format(topo["vpn"]["ip"].partition("/")[0]))
+                else:
+                    self.addHost(host['name'], ip=host['ip'], mac=host['mac'])
+                descriptions[host['name']] = host['description']
+
+            for link in topo['links']:
+                if link['linkopts'] is None:
+                    self.addLink(link['node1'], link['node2'])
+                else:
+                    self.addLink(link['node1'], link['node2'], **link['linkopts'])
+
+
+def runCmd(cmd):
+    #LOGGER.info("Running command: {}".format(cmd))
+    return subprocess.call(cmd, shell=True)
+
+def dumpConnections( node ):
+    "Helper function: dump connections to node"
+    dump = ''
+    for intf in node.intfList():
+        dump += str(intf)
+        dump += ':'
+        if intf.link:
+            intfs = [ intf.link.intf1, intf.link.intf2 ]
+            intfs.remove( intf )
+            dump += str(intfs[0])
+        else:
+            dump += ' '
+    return dump
+
+def createJSON(net,output_file_name):
+    "Create JSON for Policy Definition"
+    topo_info = {"Users":[], "Objects":[]}
+    id = 1
+
+    for host in net.hosts:
+        if descriptions[host.name] == "host":
+            topo_info["Users"].append({
+                'User': host.name,
+                'Device': {
+                    'Name': host.name,
+                    'Description': descriptions[host.name],
+                    'Type': 'Host',
+                    'ID': str(id),
+                    'MAC': host.MAC(),
+                    'Location': "site" + str(host.IP()).split("/")[0].split(".")[2],
+                    'IP': host.IP(),
+                    'Port': dumpConnections(host)
+                }})
+        elif descriptions[host.name] == "server":
+            topo_info["Objects"].append({
+                'Name': host.name,
+                'IP': host.IP(),
+                'MAC': host.MAC(),
+                'Type': 'Host',
+                'ID': str(id),
+                'Description': descriptions[host.name],
+                'Location': "site" + str(host.IP()).split("/")[0].split(".")[2],
+                'Port': dumpConnections(host)
+            })
+    if output_file_name!="":
+        with open(output_file_name, 'w+') as f:
+            json.dump(topo_info, f, indent = 4)
+
+        LOGGER.info("identity file\t"+output_file_name +'\tgenerated')
+
+# Commented code below is old version of createJSON function -------------------
+    #topo_info = []
+
+    #id = 1
+    #for switch in net.switches:
+        #topo_info.append({
+            #'Name': switch.name,
+            #'IP': switch.IP(),
+            #'MAC': switch.dpid,
+            #'Type': 'Switch',
+            #'ID': str(id),
+            #'Description': descriptions[switch.name]
+            #})
+        #id += 1
+
+    # These next three lines should stay commented ------
+    #dump = dumpNetConnections(net)
+    #dump = dumpConnections(net.hosts[0])
+    #print dump
+    # ---------------------------------------------------
+    #for host in net.hosts:
+        #topo_info.append({
+            #'Name': host.name,
+            #'IP': host.IP(),
+            #'MAC': host.MAC(),
+            #'Type': 'Host',
+            #'ID': str(id),
+            #'Description': descriptions[host.name],
+            #'Port': dumpConnections(host)
+            #})
+        #id += 1
+
+    #with open('ref_topo.json', 'w+') as f:
+        #json.dump(topo_info, f, indent = 4)
+
+    #LOGGER.info('ref_topo.json\tgenerated')
+# ---------------------------------------------------------------------------------------
+
+def send_to_main_vm(json): 
+    home = os.environ.get('HOME_DIRECTORY')
+
+    clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    if home is not None:
+        clientsocket.connect(('localhost', 9999))
+    else:
+         clientsocket.connect(('host.docker.internal', 9999))
+    
+    clientsocket.send(json)
+    clientsocket.close()
+
+class ThreadedTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    pass
+
+class MyTCPHandler(socketserver.BaseRequestHandler):
+    """
+    The request handler class for our server.
+    """
+    def handle(self):
+        # self.request is the TCP socket connected to the client
+        raw = self.request.recv(8192).decode().strip()
+        #LOGGER.info(f"Received request: {raw}")
+        data = json.loads(raw)
+        hostname = socket.gethostname()
+        local_ip = socket.gethostbyname(hostname)
+
+        type_ = data.get("type")
+        if type_ == "delete":
+            del mininet_instance[data["host"]]
+        elif type_ == "create":
+            #add the user to the mininet network
+            identity = data["identity"]
+            #LOGGER.info(f"identity {identity}")
+            site_num = local_ip.split("/")[0].split(".")[3]
+            #LOGGER.info(f"site number: {site_num}")
+            switch_name = data["switch_name"]
+            #LOGGER.info(f"switch name: {switch_name}")
+            parts = identity['Device']['IP'].split("/")[0].split('.')
+            mininet_instance.addHost(identity['Device']['Name'])
+
+            #stores [User name, current time, new location of user]
+            user_arrival_info= OrderedDict()
+            user_arrival_info["source"]="mininet_script"
+            user_arrival_info['time']=str(current_milli_time())
+            user_arrival_info['Name']=identity['Device']['Name']
+            user_arrival_info['New Location']=identity['Device']['IP'].split("/")[0].split(".")[2]
+            #adding timestamp logic for time-to-invalidate calculations
+            with open("/tmp/user_arrival_timestamps.json", "a") as outfile:
+                json.dump(user_arrival_info, outfile)
+
+            # ADDED
+            # trigger obligation for the user and send info to main site
+            trigger_obligations_command="trigger-obligation " + identity['Device']['IP'] + " site" + identity['Device']['IP'].split("/")[0].split(".")[2] + " site" + site_num + " " + identity['Device']['Name']
+            #LOGGER.info(f"trigger obligation command to be run: {trigger_obligations_command}")
+            run_onos_cmd(trigger_obligations_command)
+            msg = "{\"name\": " + "\"" + identity['Device']["Name"] + "\", \"ip\": " + "\"" + identity['Device']["IP"] + "\"}"
+            #LOGGER.info(f"sending message to main site: {msg}")
+            send_to_main_vm(msg.encode('utf-8'))
+
+            switch = mininet_instance.get(switch_name)
+            #time.sleep(random.randint(1, 10))
+            mininet_instance.addLink(switch, mininet_instance.get(identity['Device']['Name']))
+            #LOGGER.info(f" Device Port: {identity['Device']['Port']}")
+            #LOGGER.info(f"mininet switch attaching: {identity['Device']['Port'].partition(':')[2]}")
+            switch.attach(identity['Device']['Port'].partition(':')[2]) ##debug was [2] previously
+            mininet_instance.get(identity['Device']['Name']).setIP( identity['Device']['IP'])
+            mininet_instance.get(identity['Device']['Name']).setDefaultRoute("via {}".format(parts[0] + '.' + parts[1] + '.' + parts[2] + '.1'))
+
+
+@contextmanager
+def setupMininet():
+        with open(topology, 'r') as f:
+            topo = json.load(f)
+
+            LOGGER.info('Launching mininet...')
+            net = Mininet( topo=GenerateTopo(),
+                        controller = RemoteController( 'c0' ),
+                        link = TCLink,
+                        autoSetMacs=True,
+                        ipBase=topo.get("ip_base", "10.0.0.0/24"))
+            try:
+                #activate openflow
+                run_onos_cmd("app activate org.onosproject.openflow")
+                if onos_app:
+                    #activate the app that is to be run
+                    run_onos_cmd("app activate " + onos_app)
+                net.start()
+                
+                if onos_app.__contains__("netviews"):
+                    run_onos_cmd("get-ip")
+                
+                if (command == "cli" or command == "run") and onos_app.__contains__("netviews"):
+                    site_num = 'site' + topo["vpn"]["ip"].split("/")[0].split(".")[2]
+
+                    for host in topo['hosts']:
+                #   print("\n\n\n\nGOT HERE\n\n\n")
+                        if host['type'] == 'user':
+                 #     print("\n\n\n\nTYPE WAS USER\n\n\n")
+                            run_onos_cmd("trigger-obligation " + host['ip'].split("/")[0] + " " + site_num + " " + site_num + " " + host["name"])
+                            if multisite==1:
+                                LOGGER.info("Sending to main site")
+                                msg = "{\"name\": " + "\"" + host["name"] + "\", \"ip\": " + "\"" + host["ip"] + "\"}"
+                                send_to_main_vm(msg.encode('utf-8'))
+                                LOGGER.info("Sent to main site")
+                    print("All hosts added to a site's network")
+               # == Configure wireguard ==
+                if TUNNEL_TYPE == "gre":
+                    runCmd("sudo wg-quick down wg0")
+                    runCmd("sudo ./gretun_up.sh")
+
+                if TUNNEL_TYPE != "none":
+                    switch = topo["vpn"]["switch"]
+                    vpn_ip = topo["vpn"]["ip"]
+                    ifname = "{}-wg".format(switch)
+
+                    runCmd("sudo ip link del {}".format(ifname))
+                    runCmd("sudo ip link add {} type veth peer name sveth".format(ifname))
+                    runCmd("sudo ovs-vsctl add-port {} {}".format(switch, ifname))
+                    runCmd("sudo ip link set dev sveth up")
+                    runCmd("sudo ip link set dev {} up".format(ifname))
+                    runCmd("sudo ip addr add {} dev sveth".format(vpn_ip))
+
+                # == adds given latency to wg0 interface ==
+                for interface in INTERFACES:
+                    runCmd('sudo tc qdisc del dev ' + interface + ' root')
+                    runCmd('sudo tc qdisc add dev ' + interface + ' root netem delay ' + str(latency) + 'ms')
+            
+
+                HOST, PORT = "", 9998
+                with ThreadedTCPServer((HOST, PORT), MyTCPHandler) as server:
+                    # Start a thread with the server -- that thread will then start one
+                    # more thread for each request
+                    server_thread = threading.Thread(target=server.serve_forever)
+                    # Exit the server thread when the main thread terminates
+                    server_thread.daemon = True
+                    server_thread.start()
+                    print("Server loop running in thread:", server_thread.name)
+
+                    global mininet_instance
+                    mininet_instance = net
+
+                    yield net
+                    server.shutdown()
+            finally:
+                LOGGER.info('Shutting down mininet...')
+                if TUNNEL_TYPE == "gre":
+                    runCmd("sudo ./gretun_down.sh")
+                    runCmd("sudo wg-quick up wg0")
+                net.stop()
+                if onos_app:
+                    run_onos_cmd("app deactivate " + onos_app)
+
+def clientServerExperiment(experiments, net):
+    """Experiment format for client-server commands, and optional server setup.
+
+    Each client perform a command for each server, where the <SERVER> in the
+    client command will be substituted for server's IP, and <PORT> will be
+    substituted for a port to communicate to the server with.
+    """
+    for group in experiments["connections"]:
+        for server in group["servers"]:
+            for net_host in net.hosts:
+                if str(net_host.IP()) == server:
+                    for client_num in range(len(group["clients"])):
+                        formatted = experiments["server_command"].replace("<PORT>", str(PORT_START + client_num))
+                        command = "{} >& /tmp/experiments/server_{}_{}.log &".format(
+                            formatted, server, group["clients"][client_num]
+                        )
+                        LOGGER.info("Server " + server + " running command: " + command)
+                        net_host.cmd(command)
+
+    time.sleep(15)
+
+
+    for round in range(rounds):
+        LOGGER.info('Running experimental round ' + str(round + 1) + '/' + str(rounds) + ', ETA: ' + str((rounds - round) * (timeout + 5)) + ' seconds')
+        for group in experiments["connections"]:
+            for client_num, client in enumerate(group["clients"]):
+                for net_host in net.hosts:
+                    if str(net_host) == client:
+                        for server_ip in group["servers"]:
+                            # TODO: Delete this awful code
+                            if PING_GATEWAY:
+                                with open(topology, 'r') as f:
+                                    topo = json.load(f)
+                                    LOGGER.info("pinging gateway")
+                                    net_host.cmd("ping {} -c 1".format(topo["vpn"]["ip"].partition("/")[0]))
+                            formatted = experiments["client_command"].replace("<SERVER>", server_ip)
+                            command = "{} >> /tmp/experiments/client_{}_{}.log &".format(
+                                formatted, client, server_ip
+                            )
+                            LOGGER.info("Client " + client + " running command: " + command)
+                            net_host.cmd(command)
+                            if wait > 0:
+                                time.sleep(wait)
+
+        time.sleep(timeout)
+
+        if interval == 0 and flush:
+            flush_network(net)
+        elif interval > 0 and flush:
+            if ((round + 1) % interval) == 0:
+                flush_network(net)
+
+        time.sleep(after_timeout)
+
+def rawExperiment(experiments, net):
+    """Runs commands exactly as specified in the config"""
+    for servers in experiments["server"]:
+        for server in servers:
+            for net_host in net.hosts:
+                if str(net_host) == server:
+                    for experiment in servers[server]:
+                        LOGGER.info("Server " + server + " running command: " + experiment)
+                        cmd = net_host.cmd(experiment)
+
+    time.sleep(15)
+
+    for round in range(rounds):
+        LOGGER.info('Running experimental round ' + str(round + 1) + '/' + str(rounds) + ', ETA: ' + str((rounds - round) * (timeout + 5)) + ' seconds')
+        for clients in experiments["client"]:
+            for client in clients:
+                for net_host in net.hosts:
+                    if str(net_host) == client:
+                        for experiment in clients[client]:
+                            LOGGER.info(datetime.now().time())
+                            LOGGER.info("Client " + client + " running command: " + experiment)
+                            cmd = net_host.cmd(experiment)
+                            if wait > 0:
+                                time.sleep(wait)
+
+        time.sleep(timeout)
+
+        if interval == 0 and flush:
+            flush_network(net)
+        elif interval > 0 and flush:
+            if ((round + 1) % interval) == 0:
+                flush_network(net)
+        time.sleep(after_timeout)
+
+def runTopo(experiments, net):
+    "Create network"
+    createJSON(net,"")
+
+    os.system('sudo rm /tmp/user_arrival_timestamps.json')
+
+    os.system('sudo rm /tmp/location_log_diff.json')
+    os.system('touch /tmp/location_log_diff.json')
+
+
+    os.system('sudo rm -r /tmp/experiments')
+    os.system('mkdir /tmp/experiments')
+
+    LOGGER.info('Waiting for server startup...')
+    time.sleep(10)
+    experiment_type = experiments.get("type")
+    if experiment_type is None:
+        rawExperiment(experiments, net)
+    elif experiment_type == "client-server":
+        clientServerExperiment(experiments, net)
+    else:
+        raise ValueError("unknown experiment type")
+
+    os.system('sudo rm -r '+ destination)
+    os.system('mkdir ' + destination)
+    os.system('mv /tmp/experiments/* ' + destination)
+
+    LOGGER.info('Experiments completed, output located in ' + destination)
+
+def run_onos_cmd(cmd):
+    user = os.environ["USER"]
+    home = os.environ.get('HOME_DIRECTORY')
+    #LOGGER.info("User %s is running ONOS", user)
+
+    if home is not None:
+        user=home.split("/")[-1]
+        runCmd(f"ssh -o LogLevel=error -i {home}/.ssh/id_rsa -p 8101 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null {user}@localhost {cmd}"+ " > /dev/null")    
+    else:
+        runCmd(f"ssh -o LogLevel=error -i /root/.ssh/id_rsa -p 8101 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@localhost {cmd}"+ " > /dev/null")
+
+def coordinate_with_other_sites():
+    msgFromClient = "done"
+    bytesToSend = str.encode(msgFromClient)
+    home = os.environ.get('HOME_DIRECTORY')
+    if home is not None:
+        address = 'localhost'
+    else:
+        address = 'host.docker.internal'
+    server_port = 9997
+    serverAddressPort = (address, server_port)
+    bufferSize = 1024
+    # Create a UDP socket at client side
+    UDPClientSocket = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+    # Send to server using created UDP socket
+    UDPClientSocket.sendto(bytesToSend, serverAddressPort)
+    LOGGER.info("message sent to server")
+
+    msg = ""
+    while msg != "next_round":
+        msgFromServer = UDPClientSocket.recvfrom(bufferSize)
+        msg = msgFromServer[0].decode("utf-8")
+        LOGGER.info(msg)
+
+def flush_network(net):
+    LOGGER.info("starting first coordination")
+    coordinate_with_other_sites()
+    LOGGER.info("first coordination ended")
+    #run_onos_cmd(f"app deactivate {onos_app}")
+    LOGGER.info("removing intents")
+    run_onos_cmd(f"remove-intent -p {onos_app}")
+    LOGGER.info("intents removed")
+    for host in net.hosts:
+        host.cmd("ip neigh flush all")
+    #run_onos_cmd(f"app activate {onos_app}")
+    LOGGER.info("starting second coordination")
+    coordinate_with_other_sites()
+    LOGGER.info("stopping second coordination")
+
+if __name__ == '__main__':
+    main()

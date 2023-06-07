@@ -1,0 +1,13 @@
+[{
+  "Device": {
+      "Name": "h1",
+      "IP": "172.20.2.111/24",
+      "Port": "h1-eth0:s25-eth50",
+      "MAC": "00:00:00:00:00:01",
+      "Location": "site2",
+      "Type": "Host",
+      "ID": "1",
+      "Description": "host"
+  },
+  "User": "h1"
+}]

@@ -1,0 +1,5 @@
+Total Sites,Case,Latency (ms)
+One,intra-site,6.061052099409292
+Two,adjacent sites,8.748239050609333
+Two,interstate,17.735979990420947
+Two,overseas,111.39279442286201

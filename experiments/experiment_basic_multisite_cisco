@@ -1,0 +1,48 @@
+{
+  "server": [
+    {
+      "sv1": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_1_1.log &",
+        "iperf3 -s -p 82 >& /tmp/experiments/server_throughput_1_2.log &",
+        "iperf3 -s -p 83 >& /tmp/experiments/server_throughput_1_3.log &"
+      ]
+    },
+    {
+      "sv3": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_2_1.log &",
+        "iperf3 -s -p 82 >& /tmp/experiments/server_throughput_2_2.log &",
+        "iperf3 -s -p 83 >& /tmp/experiments/server_throughput_2_3.log &"
+      ]
+    },
+    {
+      "sv5": [
+        "iperf3 -s -p 81 >& /tmp/experiments/server_throughput_3_1.log &",
+        "iperf3 -s -p 82 >& /tmp/experiments/server_throughput_3_2.log &",
+        "iperf3 -s -p 83 >& /tmp/experiments/server_throughput_3_3.log &"
+      ]
+    }
+  ],
+  "client": [
+    {
+      "pc1": [
+        "iperf3 -c 172.20.33.13 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_1.log &",
+        "iperf3 -c 172.20.32.13 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_2.log &",
+        "iperf3 -c 172.20.31.16 -p 81 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_1_3.log &"
+      ]
+    },
+    {
+      "pc6": [
+        "iperf3 -c 172.20.33.13 -p 82 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_2_1.log &",
+        "iperf3 -c 172.20.32.13 -p 82 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_2_2.log &",
+        "iperf3 -c 172.20.31.16 -p 82 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_2_3.log &"
+      ]
+    },
+    {
+      "pc8": [
+        "iperf3 -c 172.20.33.13 -p 83 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_3_1.log &",
+        "iperf3 -c 172.20.32.13 -p 83 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_3_2.log &",
+        "iperf3 -c 172.20.31.16 -p 83 -P 1 -V -t 60 >> /tmp/experiments/client_throughput_3_3.log &"
+      ]
+    }
+  ]
+}

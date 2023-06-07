@@ -1,0 +1,7 @@
+Application,Case,Latency (ms)
+MSNetViews,Adjacent Sites,8.748239050609333
+ifwd,Adjacent Sites,1.7259235804374435
+MSNetViews,NY and Washington,17.735979990420947
+ifwd,NY and Washington,11.894151455484009
+MSNetViews,Copenhagen and Washington,111.39279442286201
+ifwd,Copenhagen and Washington,105.36554733649086

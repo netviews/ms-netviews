@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+# File that checks the input files in the global sites tmp directory, then if no errors distributes the obfuscated policies to local sites
+import subprocess
+import os
+import argparse
+from pathlib import Path
+
+def cmd(txt, **kwargs):
+    subprocess.run(txt, shell=True, check=True, **kwargs)
+
+def cmd_with_output(txt, **kwargs):
+    subprocess.run(txt, shell=True, check=True, stdout=subprocess.PIPE, **kwargs)
+
+cmd('mvn -f $HOME_DIRECTORY/netviews-code/PolicyCheckerAndSlicer clean install')
+
+output = subprocess.run('java -cp $HOME_DIRECTORY/netviews-code/PolicyCheckerAndSlicer/target/policy-chekcer-slicer-1.3.1.jar netviews.DefaultAdminPolicyHandler', shell=True, check=True, capture_output=True).stdout.decode('utf-8')
+
+result=subprocess.run('ls |grep locationChangeToSite', shell=True, check=True, stdout=subprocess.PIPE)
+obligation_files=result.stdout.decode("utf-8").split("\n")
+
+obligation_files_in_text=""
+for index in range(len(obligation_files)-1):
+    obligation_files[index]=os.environ.get('HOME')+"/central_admin/"+obligation_files[index]    
+    obligation_files_in_text+=obligation_files[index]+" "
+
+print(obligation_files_in_text)
+
+experiment_env = {
+    **os.environ,
+    "OBLIGATION_FILES": obligation_files_in_text
+}
+if "Policy Slice Generated" in output:
+    print("The given policy is error free, nice!\n Sending policy slices now!")
+    cmd("stc distribute-policies", env=experiment_env)
+else:
+    print("The given policy has some errors :(")
+    print(output)
+
+print("=== All done! ===")

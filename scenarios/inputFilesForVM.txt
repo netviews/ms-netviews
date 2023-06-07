@@ -1,0 +1,4 @@
+POLICYGRAPH,/tmp/policy.json
+PROHIBITION,/tmp/prohibition.json
+OBLIGATION,/tmp/locationChangeToSite1.yml,/tmp/locationChangeToSite2.yml
+IDENTITYMAPPING,/tmp/identity_mapping.json

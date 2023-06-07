@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -x
+set -e
+
+cp ~/netviews-code/topology-json/topo-ministanford-65host35server/identity_mapping.json /tmp/identity_mapping.json
+cp ~/netviews-code/topology-json/topo-ministanford-65host35server/policy.json /tmp/policy.json
+
+sudo -E ./mininet_script -t ../topology-json/topo-ministanford-65host35server/topology.json -c run -e experiment_all_latency_ministanford65-35 -r "$1" -s 40 -w 1 -d ~/ministanford-latency-fwd -a org.onosproject.fwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-ministanford-65host35server/topology.json -c run -e experiment_all_latency_ministanford65-35 -r "$1" -s 40 -w 1 -d ~/ministanford-latency-ifwd -a org.onosproject.ifwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-ministanford-65host35server/topology.json -c run -e experiment_all_latency_ministanford65-35 -r 10 -s 40 -w 1 -d ~/ministanford-latency-netviews -a org.onosproject.netviews -f
+
+./mtr_to_csv -f ~/ministanford-latency-netviews/client_* -n {1..65}_{1..35} -o ~/parsed-results/netviews.csv -r
+./mtr_to_csv -f ~/ministanford-latency-ifwd/client_* -n {1..65}_{1..35} -o ~/parsed-results/ifwd.csv -r
+./mtr_to_csv -f ~/ministanford-latency-fwd/client_* -n {1..65}_{1..35} -o ~/parsed-results/fwd.csv -r
+
+./clean_up_mtr -f ~/parsed-results/fwd.csv ~/parsed-results/ifwd.csv ~/parsed-results/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/ministanford-latency-results.csv -t "Ministanford single site"
+./clean_up_mtr -f ~/parsed-results/fwd.csv ~/parsed-results/ifwd.csv ~/parsed-results/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/ministanford-latency-results-1st.csv -t "Ministanford single site" -F

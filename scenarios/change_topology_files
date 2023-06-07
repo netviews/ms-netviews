@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+
+# --- USAGE NOTES: --- #
+# This script is used to 1. Find the differences between two identity mapping files, then 2. generating the script of commands to be
+# run in each container to make the corresponding topology changes in mininet dynamically
+# Example usage:
+# ./change_topology_files -o identity_mapping_1 -n identity_mapping_2
+# This will create three files called change_topology1.py, change_topology2.py, and change_topology3.py. Each will have adding 
+# and removing commands to change a mininet topology.
+# Other notes:
+# - currently it is hardcoded for 3 sites. Add more scripts to change this.
+
+import argparse
+import json
+
+def main():
+    parser = argparse.ArgumentParser(
+        description = 'Get the difference between two files')
+    parser.add_argument('-o', '--oldFile', type = str, required = True,
+        help = 'The first file to compare to')
+    parser.add_argument('-n', '--newFile', type = str, required = True,
+        help = 'The second file to compare to')
+
+    args = parser.parse_args()
+
+    find_difference(args.oldFile, args.newFile)
+
+
+def find_difference(f1, f2):
+    with open(f1) as file1:
+        file1 = json.load(file1)
+    with open(f2) as file2:
+        file2 = json.load(file2)
+
+    unique_identities = [identity for identity in file1 if identity not in file2]
+    for identity in file2:
+        if identity not in file1:
+            unique_identities.append(identity)
+
+    print(unique_identities)
+    make_mininet_scripts(unique_identities)
+
+
+script1 = open("change_topology1.py", 'w')
+script2 = open("change_topology2.py", 'w')
+script3 = open("change_topology3.py", 'w')
+
+def make_mininet_scripts(unique_identities):
+    
+    found = []
+    for i in range(0, len(unique_identities)):
+        identity = unique_identities[i]
+        
+        container_num = identity['IP'][8]
+
+        switch_name_starting_position = int(len(identity['Port']) - 7)
+
+        
+        if identity['Name'] in found:
+            if container_num == '1':
+                write_command(script1, identity, switch_name_starting_position)
+            elif container_num == '2':
+                write_command(script2, identity, switch_name_starting_position)
+            elif container_num == '3':
+                write_command(script3, identity, switch_name_starting_position)
+        else:
+            if container_num == '1':
+                script1.write('net.delHost(' + identity['Name'] + ')\n')
+            elif container_num == '2':
+                script2.write('net.delHost(' + identity['Name'] + ')\n')
+            elif container_num == '3':
+                script3.write('net.delHost(' + identity['Name'] + ')\n')
+
+
+        found.append(identity['Name'])
+
+    script1.close()
+    script2.close()
+    script3.close()
+
+def write_command(script, identity, switch_name_starting_position):
+    script.write('net.addHost(\'' + identity['Name'] + '\')\n')
+    script.write('net.addLink(' + identity['Port'][switch_name_starting_position:switch_name_starting_position + 2] + ', net.get(\'' + identity['Name'] + '\'))\n')
+    script.write('net.get(\'' + identity['Name'] + '\').setIP(\'' + identity['IP'] + '\')\n')
+
+if __name__ == '__main__':
+    main()

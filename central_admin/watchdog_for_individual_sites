@@ -1,0 +1,58 @@
+#!/usr/bin/python
+# File for each individual site to watch their local location log
+import time
+import subprocess
+import json
+import os
+from datetime import datetime, timedelta
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+from jsondiff import diff
+from jsondiff import patch
+import subprocess
+
+def runCmd(cmd):
+    #print("Running command: {}".format(cmd))
+    return subprocess.call(cmd, shell=True)
+
+class MyHandler(FileSystemEventHandler):
+    def __init__(self):
+        self.counter = 0
+    def on_modified(self, event):
+        if event.src_path == "/tmp/location_log_diff.json":
+            #if check_diff():
+            
+            #patch changes to location_log.json from location_log_diff.json by using a temp_location_log.json file.
+            #directly applying patch to location_log.json was not working
+            runCmd("sudo rm -f /tmp/temp_location_log.json")
+            runCmd("jdiff -p /tmp/location_log.json /tmp/location_log_diff.json > /tmp/temp_location_log.json")
+            runCmd("mv /tmp/temp_location_log.json /tmp/location_log.json")
+
+            #print('event type: ' + event.event_type +  " path: " + event.src_path)
+            subprocess.call("/tmp/trigger-obligations", shell=True)
+
+def check_diff():
+    if os.stat("/tmp/prev_location_log.json").st_size == 0:
+        return True
+    filea = open("/tmp/location_log.json", "r")
+    fileb = open("/tmp/prev_location_log.json", "r")
+    a = json.load(filea)
+    b = json.load(fileb)
+    res = diff(a, b)
+    filea.close()
+    fileb.close()
+    return res
+
+if __name__ == "__main__":
+    event_handler = MyHandler()
+    observer = Observer()
+    location_file_path="/tmp/"
+    observer.schedule(event_handler, path=location_file_path, recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()

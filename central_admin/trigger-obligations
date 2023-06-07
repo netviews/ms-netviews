@@ -1,0 +1,60 @@
+#!/usr/bin/python
+# File that retriggers obligations for each item in the location log when a policy is reloaded
+import json
+import subprocess
+import socket
+import os
+import re
+
+#triggers obligations for users that have joined/registered to a site or moved sites. It currently does not support user deletion. 
+
+def run_onos_cmd(cmd):
+    #user = os.environ["SUDO_USER"]
+    home = os.environ.get('HOME_DIRECTORY')
+    if home is not None:
+        runCmd("ssh -o LogLevel=error -i /home/hrehman/.ssh/id_rsa -p 8101 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null hrehman@localhost " + cmd + " > /dev/null")
+    else:
+        runCmd("ssh -o LogLevel=error -i /root/.ssh/id_rsa -p 8101 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@localhost " + cmd + " > /dev/null")
+
+def runCmd(cmd):
+    return subprocess.call(cmd, shell=True)
+
+def trigger_obligation_for_user(user,site, site_num):
+    cmd = "trigger-obligation " + user['ip'].split("/")[0] + " " + site + " site" + site_num + " " + \
+          user['name']
+    #print(user['name'])
+    run_onos_cmd(cmd)
+    #print(cmd)
+    #print("obligation triggered")
+
+f = open("/tmp/location_log_diff.json")
+data = json.load(f)
+data=str(data).replace("\'","\"")
+data=str(data).replace("u\"","\"")
+
+hostname = socket.gethostname()
+local_ip = socket.gethostbyname(hostname)
+site_num = local_ip.split("/")[0].split(".")[3]
+
+user_exists=False
+usersRegEx = re.compile(r'{"name": "h(\w)*", "ip": "(\w)*.(\w)*.(\w)*.(\w)*/24"}')
+users=usersRegEx.search(data)
+if users!=None:
+    user_exists=True
+else:
+    usersRegEx = re.compile(r'{"ip": "(\w)*.(\w)*.(\w)*.(\w)*/24", "name": "h(\w)*"}')
+    users = usersRegEx.search(data)
+    if users != None:
+        user_exists = True
+
+while user_exists:
+    users=usersRegEx.search(data)
+    if users!= None:
+        #print(users.group())
+        user=json.loads(users.group())
+        users_new_site=user['ip'].split("/")[0].split(".")[2]
+        if users_new_site!=site_num:
+            trigger_obligation_for_user(user,"site"+ users_new_site,site_num)
+        data=data.replace(users.group(),"")
+    else:
+        user_exists=False

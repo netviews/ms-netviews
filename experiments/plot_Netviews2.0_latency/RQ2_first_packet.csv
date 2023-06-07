@@ -1,0 +1,9 @@
+Topology,Traffic,Latency (ms)
+Cisco,intra-site,7.851513157894737
+Cisco,adjacent,13.1278125
+Cisco,NY ↔ D.C.,21.22203947368421
+Cisco,CP ↔ D.C.,114.45230263157895
+Ministanford,intra-site,6.061052099409292
+Ministanford,adjacent,8.748239050609333
+Ministanford,NY ↔ D.C.,17.735979990420947
+Ministanford,CP ↔ D.C.,111.39279442286201

@@ -1,0 +1,17 @@
+Metric,Topology,Traffic,Latency (ms),WAN
+initial packet,Cisco,same-site,7.851513157894740,0
+initial packet,Cisco,DC ↔ DC,13.1278125,1
+initial packet,Cisco,DC ↔ NY,21.22203947368420,11.2
+initial packet,Cisco,DC ↔ CP,114.45230263157900,105
+initial packet,Ministanford,same-site,6.061052099409290,0
+initial packet,Ministanford,DC ↔ DC,8.748239050609330,1
+initial packet,Ministanford,DC ↔ NY,17.735979990420900,11.2
+initial packet,Ministanford,DC ↔ CP,111.39279442286200,105
+nth packet,Cisco,same-site,0.0756362901427297,0
+nth packet,Cisco,DC ↔ DC,1.3788026873327400,1
+nth packet,Cisco,DC ↔ NY,11.604228925066900,11.2
+nth packet,Cisco,DC ↔ CP,105.0768008474580,105
+nth packet,Ministanford,same-site,0.1015263509667900,0
+nth packet,Ministanford,DC ↔ DC,1.209994651243970,1
+nth packet,Ministanford,DC ↔ NY,11.400195189005900,11.2
+nth packet,Ministanford,DC ↔ CP,105.02184872130500,105

@@ -1,0 +1,76 @@
+#!/usr/bin/env python3
+"""
+A script for cleaning the parsed CSV results of MTR for graphing.
+
+Example usage:
+./experiments/clean_up_mtr -f ../cisco-single-docker-results/lat.csv ../cisco-single-docker-results/ilat.csv
+   -n "ONOS fwd" "ONOS ifwd" -t "Cisco single site" -o ../cisco-single-docker-results/cleaned_latency.csv
+"""
+
+import csv
+import argparse
+import pandas as pd
+
+def aggregate_latency(df, first_packet):
+    if first_packet:
+        # Select the first packet column and average that
+        return df[1].mean()
+    else:
+        # Drop the column names and first packet column
+        df.drop(columns=[0, 1], inplace=True)
+
+        # Average each row, and then average the average
+        return df.aggregate('mean').mean()
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = 'Convert mtr to CSV')
+    parser.add_argument('-f', '--file', type = str, nargs = "+",
+                        help = 'the result file(s) to parse for graphing')
+    parser.add_argument('-n', '--name', type = str, nargs = "+",
+                        help = 'The application names')
+    parser.add_argument('-t', '--topology', type = str, required = True,
+                        help = 'The topology name')
+    parser.add_argument('-o', '--output', type = str, required = True,
+                        help = 'output file path (e.g. "output.csv")')
+    parser.add_argument('-F', '--first-packet', action="store_true",
+                        help = 'Measure only first packet latency, otherwise 2..n')
+    parser.add_argument('-rfr', '--remove-first-row', type=bool, required=False, default=False,
+                        help='Whether to remove first row from results or not.')
+    parser.add_argument('-runs', '--total-runs', type=int, required=True,
+                        help='Total runs.')
+    args = parser.parse_args()
+
+    if len(args.file) != len(args.name):
+        raise ValueError("Number of files should match the number of names provided!")
+
+    
+    drop_rows = []
+    rows=0
+    #get total number of rows
+    for data, name in zip(args.file, args.name):
+        df: pd.DataFrame = pd.read_csv(data, header=None)
+        rows=df.shape[0]
+        
+    # #just keep first run
+    # for row in range(0, rows):
+    #     if not (row % int(args.total_runs) == 0):
+    #         drop_rows.append(row)
+
+    # just remove first run
+    if (args.remove_first_row):
+        for row in range(0, rows):
+            if (row % int(args.total_runs) == 0):
+                drop_rows.append(row)
+
+    with open(args.output, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["application", "topology", "latency_ms"])
+        for data, name in zip(args.file, args.name):
+            df: pd.DataFrame = pd.read_csv(data, header=None)
+            
+            df=df.drop(drop_rows)
+            # Converting microseconds to milliseconds
+            agg_latency = aggregate_latency(df, args.first_packet) / 1000
+            writer.writerow([name, args.topology, agg_latency])
+
+    print(f"Successfully wrote CSV at {args.output}!")

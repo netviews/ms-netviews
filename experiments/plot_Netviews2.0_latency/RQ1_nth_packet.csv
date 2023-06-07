@@ -1,0 +1,13 @@
+Topology,Application,Location of Sites,Latency (ms)
+Cisco,MSNetViews,DC ↔ DC,1.3788026873327386
+Cisco,ifwd,DC ↔ DC,1.3618953501338091
+Cisco,MSNetViews,DC ↔ NY,11.604228925066904
+Cisco,ifwd,DC ↔ NY,11.5884840544157
+Cisco,MSNetViews,DC ↔ CP,105.0768008474576
+Cisco,ifwd,DC ↔ CP,105.05104259589652
+Ministanford,MSNetViews,DC ↔ DC,1.209994651243969
+Ministanford,ifwd,DC ↔ DC,1.3344338661945088
+Ministanford,MSNetViews,DC ↔ NY,11.400195189005915
+Ministanford,ifwd,DC ↔ NY,11.515218518782431
+Ministanford,MSNetViews,DC ↔ CP,105.02184872130455
+Ministanford,ifwd,DC ↔ CP,105.00962505490817

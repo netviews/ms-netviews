@@ -1,0 +1,206 @@
+#!/usr/bin/env python3
+
+import argparse
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import statistics
+from textwrap import wrap
+from matplotlib import rcParams
+
+output = ''
+
+def main():
+    parser = argparse.ArgumentParser(
+        description = 'Convert mtr to CSV')
+    parser.add_argument('-f', '--file', type = str, required = True,
+        help = 'the result file(s) to parse for graphing')
+    parser.add_argument('-o', '--output', type = str, required = True,
+        help = 'output file path (e.g. "output.csv")')
+    parser.add_argument('-t', '--title', type = str, required = True,
+        help = 'figure title start (e.g. "Throughput" for "Throughput Host 1 Server 1")')
+    parser.add_argument('-r', '--raw', action = 'store_true',
+        help = 'mtr result files are in raw format')
+    parser.add_argument('-ly', '--lower-y-limit', type = int, required = True,
+                        help='lower-y-limit of the graph')
+    parser.add_argument('-uy', '--upper-y-limit', type = int, required = True,
+                        help='upper-y-limit of the graph')
+
+    args = parser.parse_args()
+
+    file = args.file
+    title = args.title
+
+    global output
+    output = args.output
+
+    if "combined" in file:
+        combined_box_plot_cisco(file, title, args.lower_y_limit, args.upper_y_limit)
+        combined_box_plot_ministanford(file, title,args.lower_y_limit, args.upper_y_limit)
+    else:
+        box_plot(file, title,args.lower_y_limit,args.upper_y_limit)
+
+
+def combined_box_plot_ministanford(file, title,lower_y,upper_y):
+
+    rcParams['figure.figsize'] = 5,6 #20, 50
+    rcParams['font.size'] = 24
+    rcParams['xtick.labelsize'] = 22
+    rcParams["font.family"] = "Arial"
+    rcParams['ytick.labelsize'] = 20
+    rcParams['xtick.alignment'] = 'center'
+    rcParams['legend.fontsize'] = 22
+
+    data = pd.read_csv(file)
+    labels = data['application']
+    labels = ['\n'.join(wrap(l, 10)) for l in labels]
+
+    plt.clf()
+    data['case'] = data.apply(lambda row: "["+row['Topology']+"," + row['Traffic']+"]" , axis=1)
+
+    fig, (ax1,ax2) = plt.subplots(ncols=1, nrows=2, sharex=True)
+    data1, data2 = [x for _, x in data.groupby(data['Topology'] == 'Ministanford')]
+
+    df3, df4 = [x for _, x in data.groupby(data2['Traffic'] == 'DC ↔ CP')]
+
+
+    fig.text(-0.02, 0.55, "Throughput (Mbps)", va="center", rotation="vertical")
+    fig.text(0.35, 0.95, "Ministanford", va="center", rotation="horizontal")
+
+    sns.boxplot(x='Common', y='Aggregate', hue='application', data=df3, palette='mako',ax=ax1,showfliers=False)
+    sns.boxplot(x='Common', y='Aggregate', hue='application', data=df4, palette='mako',ax=ax2,showfliers=False)
+    sns.despine()
+
+    ax1.set_ylim(2400, 3200)
+    ax2.set_ylim(300, 500)
+    ax1.set_yticks([2400,2600,2800,3000,3200])
+    ax2.set_yticks([300, 350,400,450,500])
+
+    ax1.spines['bottom'].set_visible(False)
+
+    ax1.get_xaxis().set_visible(False)
+    ax2.get_xaxis().set_visible(False)
+
+    fig.text(0.44, 0.59, "DC ↔ DC", va="center", rotation="horizontal",fontsize=20)
+    fig.text(0.44, 0.12, "DC ↔ CP", va="center", rotation="horizontal",fontsize=20)
+
+    axes_num = 1
+    for ax in [ax1,ax2]:
+        ax.set(xlabel=None)
+        ax.legend([], [], frameon=False)
+        ax.set_ylabel(None)
+        if axes_num==1:
+            handles, labels = ax.get_legend_handles_labels()
+            plt.figlegend(handles, labels, loc='upper center', ncol=4, labelspacing=0., bbox_to_anchor=(0.5, 0.05))
+            plt.tight_layout()
+        axes_num+=1
+
+    fig.tight_layout()
+    plt.savefig(output + '_ministanford.pdf', bbox_inches='tight')
+
+
+def combined_box_plot_cisco(file, title,lower_y,upper_y):
+
+    rcParams['figure.figsize'] = 5,6 #7, 5
+    rcParams['font.size'] = 24
+    rcParams['xtick.labelsize'] = 22
+    rcParams["font.family"] = "Arial"
+    rcParams['ytick.labelsize'] = 20
+    rcParams['xtick.alignment'] = 'center'
+    rcParams['legend.fontsize'] = 22
+
+    data = pd.read_csv(file)
+    labels = data['application']
+    labels = ['\n'.join(wrap(l, 10)) for l in labels]
+
+    plt.clf()
+    data['case'] = data.apply(lambda row: "["+row['Traffic']+"," + row['Topology']+"]" , axis=1)
+    df1, df2 = [x for _, x in data.groupby(data['Topology'] == 'Ministanford')]
+    sns.set_style("ticks", {'axes.grid': True})
+
+    bar_plot=sns.boxplot(x='Traffic', y='Aggregate', hue='application', data=df1, palette='mako', showfliers=False)
+    bar_plot.set(xlabel=None)
+    plt.ylim(880, 1000)
+    bar_plot.spines['top'].set_visible(False)
+    bar_plot.spines['right'].set_visible(False)
+    handles, labels = bar_plot.get_legend_handles_labels()
+    bar_plot.legend([], [], frameon=False)
+    plt.figlegend(handles, labels, loc='upper center', ncol=2, labelspacing=0., bbox_to_anchor=(0.5, 0.05))
+    bar_plot.set_title("Cisco", fontdict={'fontsize': 24})
+    bar_plot.set_ylabel('Throughput (Mbps)')
+    plt.tight_layout()
+
+    plt.savefig(output + '_cisco.pdf', bbox_inches='tight')
+
+def box_plot(file, title,lower_y,upper_y):
+    rcParams['figure.figsize'] = 5,7
+    rcParams['font.size'] = 24
+
+    data=pd.read_csv(file)
+    labels = data['application']
+    labels = ['\n'.join(wrap(l, 10)) for l in labels]
+    #print(labels)
+
+    #to change labesl in the dataframe
+    # for i in range(len(labels)):
+    #     if data['application'][i] != 'SDNetViews':
+    #         data['application'][i] = labels[i]
+
+    #labels[2] = (data['application'])[2]
+    #data['application'] = labels
+
+    '''sender_values = {}
+    receiver_values = []
+    curr_file = 0
+    for file_path in files:
+        file = open(file_path, 'r')
+        line = file.readline()
+        #sender_values = []
+        #receiver_values = []
+        while line:
+            line = line.split()
+            if line and line[-1] == 'sender':
+                if len(sender_values) <= curr_file:
+                    sender_values[names[curr_file]] = []
+                sender_values[names[curr_file]].append(float(line[6]))
+            elif line and line[-1] == 'receiver':
+                if len(receiver_values) <= curr_file:
+                    receiver_values.append([])
+                receiver_values[curr_file].append(float(line[6]))
+            line = file.readline()
+        file.close()
+        curr_file += 1
+
+    print(sender_values)
+    print(receiver_values)
+    '''
+    first = True
+    for column in data.columns:
+        if first:
+            first = False
+        elif column=="Aggregate":
+            plt.clf()
+            #sns.boxplot(x = 'application', y = 'throughput', data = data, palette = 'Set2')
+            box_plot=sns.boxplot(x = 'application', y = column, data = data,palette='mako')
+
+            # save_title = title
+            # if column[1] == '_':
+            #     save_title += ' Host ' + column[0:1] + ' to Server ' + column[2:]
+            # else:
+            #     save_title = column + ' ' + title
+            
+            #to show median values
+            # for xtick in box_plot.get_xticks():
+            #     box_plot.text(xtick, medians[xtick] + vertical_offset, medians[xtick],
+            #                   horizontalalignment='center', size='x-small', color='w', weight='semibold')
+
+            plt.title(title)
+            plt.ylabel('Throughput (Mbps)')
+            plt.xlabel('Application')
+            plt.gca().yaxis.grid(True)
+            plt.gca().set_ylim([lower_y, upper_y]) #2820, 2940 1920,1020
+            #plt.gca().set_ylim([1860, 1980])
+            plt.savefig(output+'.pdf', bbox_inches='tight')
+
+if __name__ == '__main__':
+    main()

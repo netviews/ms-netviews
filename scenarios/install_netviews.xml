@@ -1,0 +1,51 @@
+<!--
+  ~ Copyright 2015-present Open Networking Foundation
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<scenario name="install_netviews"
+description="Install Netviews">
+   <parallel var="${OC#}">
+      <step name="Make-ONOS-Apps-Directory-${#}"
+      exec="ssh ${ONOS_USER}@${OC#} mkdir ONOS_Apps" />
+      <step name="Copy-Netviews-${#}" requires="Make-ONOS-Apps-Directory-${#}"
+      exec="scp -r ONOS_Apps/netviews ${ONOS_USER}@${OC#}:ONOS_Apps/netviews" />
+      <step name="Maven-Install-${#}" requires="Copy-Netviews-${#}"
+      exec="ssh ${ONOS_USER}@${OC#} mvn -f ONOS_Apps/netviews clean install" />
+      <step name="Deactivate-Netviews-${#}" requires="Maven-Install-${#}"
+      exec="onos ${OC#} app deactivate org.onosproject.netviews" />
+      <step name="Uninstall-Netviews-${#}" requires="Deactivate-Netviews-${#}"
+      exec="onos-app ${OC#} uninstall org.onosproject.netviews" />
+      <step name="Install-Netviews-${#}" requires="Uninstall-Netviews-${#}"
+              exec="onos-app ${OC#} install ONOS_Apps/netviews/target/onos-app-netviews-1.9.0-SNAPSHOT.oar" />
+	   
+      <step name="Copy-ifwd-${#}" requires="Make-ONOS-Apps-Directory-${#}"
+      exec="scp -r ONOS_Apps/ifwd ${ONOS_USER}@${OC#}:ONOS_Apps/ifwd" />
+      <step name="Maven-Install-ifwd-${#}" requires="Copy-ifwd-${#}"
+      exec="ssh ${ONOS_USER}@${OC#} mvn -f ONOS_Apps/ifwd clean install" />
+      <step name="Deactivate-ifwd-${#}" requires="Maven-Install-ifwd-${#}"
+      exec="onos ${OC#} app deactivate org.onosproject.ifwd" />
+      <step name="Uninstall-ifwd-${#}" requires="Deactivate-ifwd-${#}"
+      exec="onos-app ${OC#} uninstall org.onosproject.ifwd" />
+      <step name="Install-ifwd-${#}" requires="Uninstall-ifwd-${#}"
+      exec="onos-app ${OC#} install ONOS_Apps/ifwd/target/ifwd-2.3.0-SNAPSHOT.oar" />
+	   
+       <step name="Activate-openflow-${#}"
+              exec="onos ${OC#} app activate org.onosproject.openflow" />
+      <step name="Push-Watchdog-${#}" requires="Install-Netviews-${#}"
+	      exec="scp ${HOME_DIRECTORY}/central_admin/watchdog_for_individual_sites ${ONOS_USER}@${OC#}:/tmp/watch" />
+      <step name="Push-Trigger-Obligation-File-${#}" requires="Install-Netviews-${#}" exec="scp ${HOME_DIRECTORY}/central_admin/trigger-obligations ${ONOS_USER}@${OC#}:/tmp/trigger-obligations" />
+      <step name="Push-Input-Files-${#}" requires="Push-Trigger-Obligation-File-${#}" exec="scp ${HOME_DIRECTORY}/netviews-code/scenarios/inputFilesForVM.txt ${ONOS_USER}@${OC#}:/tmp/inputFiles.txt" />
+      <step name="Touch-Location-Log-${#}" requires="Push-Input-Files-${#}" exec="ssh ${ONOS_USER}@${OC#} touch /tmp/prev_location_log.json" />
+  </parallel>
+</scenario>

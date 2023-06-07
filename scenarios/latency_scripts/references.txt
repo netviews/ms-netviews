@@ -1,0 +1,9 @@
+the websites I referenced in order to make these scripts:
+1. http://borg.uu3.net/traffic_shaping/qdiscs.html#qhtb
+2. https://man7.org/linux/man-pages/man8/tc.8.html
+3. https://tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.qdisc.filters.html
+4. https://starcat.dp.ua/doc/2.4routing/2.4routing-15.html
+5. https://tldp.org/HOWTO/Adv-Routing-HOWTO/lartc.qdisc.classful.html
+6. https://linux.die.net/man/8/tc
+7. https://wiki.linuxfoundation.org/networking/netem (very good one!!!!)
+8. https://serverfault.com/questions/389290/using-tc-to-delay-packets-to-only-a-single-ip-address

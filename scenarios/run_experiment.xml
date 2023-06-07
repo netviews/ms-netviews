@@ -1,0 +1,49 @@
+<!--
+  ~ Copyright 2015-present Open Networking Foundation
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<scenario name="experiment" description="Run experiment">
+  <group name="Setup-Experiment">
+    <step name="Make-Result-Directory"
+    exec="mkdir -p ${NETVIEWS_DESTINATION}" />
+
+    <parallel var="${OC#}">
+      <step name="Copy-Mininet-Script-${#}"
+      exec="scp ${NETVIEWS_TEST_SCRIPT} ${ONOS_USER}@${OC#}:mininet_script" />
+      <step name="Copy-Topology-${#}"
+      exec="scp ${NETVIEWS_TOPOLOGY}${#}.json ${ONOS_USER}@192.168.55.${#}:/tmp/topology" />
+      <step name="Copy-Experiment-${#}"
+      exec="scp ${NETVIEWS_EXPERIMENTS} ${ONOS_USER}@${OC#}:/tmp/experiment" />
+      <step name="Clear-Experiment-Dir-${#}"
+      exec="ssh ${ONOS_USER}@${OC#} rm -rf /tmp/experiment_results &amp;&amp; mkdir /tmp/experiment_results" />
+    </parallel>
+
+    <parallel var="${OC#}">
+      <step name="Activate-Openflow-${#}"
+      exec="onos ${OC#} app activate org.onosproject.openflow" />
+      <step name="Activate-Apps-${#}"
+      exec="onos ${OC#} app activate ${NETVIEWS_APP}" /> 
+
+    </parallel>
+  </group>
+  
+  <parallel var="${OC#}">
+    <step name="Run-Experiment-${#}" requires="Setup-Experiment"
+	    exec="ssh ${ONOS_USER}@${OC#} sudo ./mininet_script -t /tmp/topology -c run -e /tmp/experiment -d /tmp/experiment_results -a ${NETVIEWS_APP} ${NETVIEWS_MININET_SCRIPT_ARGS}" />
+    <step name="Collect-Results-${#}"
+    requires="Run-Experiment-${#}"
+    exec="scp -r ${ONOS_USER}@${OC#}:/tmp/experiment_results/* ${NETVIEWS_DESTINATION}" />
+  </parallel> 
+</scenario>
+

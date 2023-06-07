@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+
+import argparse
+import os
+import csv
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-H', '--hosts', type=int, required=True,
+            help='number of hosts in desired topology')
+    parser.add_argument('-s', '--servers', type=int, required=True,
+            help='number of servers in desired topology')
+    args = parser.parse_args()
+
+    do_it(args.hosts, args.servers)
+
+
+def do_it(hosts, servers):
+    f = open('ministanford_topology_file.json', 'w')
+
+    f.write('{\n')
+    f.write('\"switches\": [\n')
+
+    #switch_name = ['b1', 'b2', 'sw1', 'sw2', 'sw3', 'sw4', 'sw5', 'sw6', 'sw7', 'sw8', 'sw9', 'sw10', 'oz1a', 'oz1b', 'oz2a', 'oz2b', 'oz3a', 'oz3b', 'oz4a', 'oz4b', 'oz5a', 'oz5b', 'oz6a', 'oz6b', 'oz7a', 'oz7b']
+    
+    switch_name = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19','s20','s21','s22','s23','s24','s25']
+
+    for x in switch_name:
+        f.write('        {\n')
+        f.write('                \"name\": \"' + x + '\",\n')
+        f.write('                 \"description\": \"switch\"\n')
+
+        if x == switch_name[len(switch_name) - 1]:
+            f.write('        }\n')
+            f.write('],\n')
+        else:
+            f.write('        },\n')
+
+    f.write('\"hosts\": [\n')
+
+    for y in range(1, hosts + 1):
+        f.write('        {\n')
+        f.write('                \"description\": \"host\",\n')
+        f.write('                \"name\": \"h' + str(y) + '\",\n')
+        f.write('                 \"server_type\": null\n')
+        f.write('        },\n')
+        
+    for z in range(1, servers + 1):
+        f.write('        {\n')
+        f.write('                \"description\": \"server\",\n')
+        f.write('                \"name\": \"sv' + str(z) + '\",\n')
+        f.write('                 \"server_type\": \"HTTP\"\n')
+
+        if z == servers:
+            f.write('        }\n')
+            f.write('],\n')
+        else:
+            f.write('        },\n')
+
+   # switch_links = [('b1','b2'),('b1','sw1'),('b1','sw2'),('b1','sw3'),('b1','sw4'),('b1','sw5'),('b2','sw6'),('b2','sw7'),('b2','sw8'),('b2','sw9'),('b2','sw10'),('sw1','oz1a'),('sw1','oz5b'),('sw2','oz4b'),('sw2','oz6a'),('sw3','oz3b'),('sw3','oz6b'),('sw4','oz1a'),('sw4','oz2a'),('sw4','oz5a'),('sw4','oz7a'),('sw5','oz2b'),('sw5','oz7b'),('sw6','oz1b'),('sw6','oz5b'),('sw7','oz3a'),('sw7','oz6a'),('sw8','oz3b'),('sw8','oz6b'),('sw9','oz1a'),('sw9','oz2a'),('sw9','oz5a'),('sw9','oz7a'),('sw10','oz2b'),('sw10','oz7b')]
+
+    switch_links =[('s1','s2'),('s1','s3'),('s1','s4'),('s1','s5'),('s1','s6'),('s1','s7'),('s2','s8'),('s2','s9'),('s2','s10'),('s2','s11'),('s2','s12'),('s3','s14'),('s3','s21'),('s4','s17'),('s4','s19'),('s5','s18'),('s5','s22'),('s6','s13'),('s6','s14'),('s6','s20'),('s6','s24'),('s7','s16'),('s7','s25'),('s8','s13'),('s8','s21'),('s9','s17'),('s9','s22'),('s10','s18'),('s10','s23'),('s11','s15'),('s11','s24'),('s12','s25')]
+
+    f.write('\"links\": [\n')
+
+    for s in switch_links:
+        f.write('        {\n')
+        f.write('                \"node1\": \"' + s[0] + '\",\n')
+        f.write('                \"linkopts\": {\"bw\": 1000},\n')
+        f.write('                \"node2\": \"' + s[1] + '\"\n')
+        f.write('        },\n')
+
+    counter = 12
+    host_counter = 1
+    server_counter = 1
+    for a in range(1, hosts + servers + 1):
+        f.write('        {\n')
+        f.write('                \"node1\": \"' + switch_name[counter] + '\",\n')
+        f.write('                \"linkopts\": {\"bw\": 1000},\n')
+        if host_counter == hosts + 1:
+            f.write('                \"node2\": \"sv' + str(server_counter) + '\"\n')
+            server_counter += 1
+        else:
+            f.write('                \"node2\": \"h' + str(host_counter) + '\"\n')
+            host_counter += 1
+        
+        if a == hosts + servers:
+            f.write('        }\n')
+            f.write(']\n')
+            f.write('}')
+        else:
+            f.write('        },\n')
+
+        if counter == 24:
+            counter = 12
+        else:
+            counter += 1
+
+
+    f.close()
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,73 @@
+#!/usr/bin/python
+# File that watches the global location log to see if any changes have been made to it
+import time
+import os
+import json
+from datetime import datetime, timedelta
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+from jsondiff import diff
+from jsondiff import patch
+import subprocess
+from os.path import exists
+
+def runCmd(cmd):
+    #print("Running command: {}".format(cmd))
+    return subprocess.call(cmd, shell=True)
+
+
+class MyHandler(FileSystemEventHandler):
+    def __init__(self):
+        self.counter = 0
+
+    def on_modified(self, event):
+        if event.src_path == os.environ.get('HOME') + "/central_admin/location_log.json":
+
+            #it's a fix to avoid incorrect location log file
+            if os.stat(os.environ.get('HOME')+"/central_admin/prev_location_log.json").st_size <= 3:
+                time.sleep(60)
+                #time.sleep(300)
+            if check_diff():
+                os.system('cp ' + os.environ.get('HOME') + "/central_admin/location_log.json " + os.environ.get(
+                    'HOME') + "/central_admin/prev_location_log.json")
+                #print('event type: ' + event.event_type + " path: " + event.src_path)
+                # this should ditribute the rest file.
+
+                # here I can add when to send the update to other sites (the batching logic)
+                os.system('stc distribute_location_logs > /dev/null')
+
+def check_diff():
+
+    prev_location_log = os.environ.get('HOME') + "/central_admin/prev_location_log.json"
+    location_log = os.environ.get('HOME') + "/central_admin/location_log.json"
+
+    filea = open(prev_location_log, "r")
+    a = json.load(filea)
+    fileb = open(location_log, "r")
+    b = json.load(fileb)
+    res = diff(a, b)
+    filea.close()
+    fileb.close()
+
+    #print(res)
+    
+    if res!={}:
+        diff_file_name = os.environ.get('HOME') + "/central_admin/" + "location_log_diff.json"
+        runCmd("sudo rm -f " + diff_file_name)
+        runCmd("jdiff" + " " + prev_location_log + " " + location_log + " > " + diff_file_name)
+        return True
+    
+    return False
+
+if __name__ == "__main__":
+    event_handler = MyHandler()
+    observer = Observer()
+    location_file_path = os.environ.get('HOME') + "/central_admin/"
+    observer.schedule(event_handler, path=location_file_path, recursive=False)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()

@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+
+import argparse
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import statistics
+from matplotlib import rcParams
+
+#sample usage
+#-f parsed-results/cisco_nth_packet_latency_results.csv -o parsed-results/cisco_nth_packet_plot -t "nth Packet Latency" -y 2
+
+output = ''
+
+def main():
+    parser = argparse.ArgumentParser(
+        description = 'Convert mtr to CSV')
+    parser.add_argument('-f', '--file', type = str, required = True,
+        help = 'the result file(s) to parse for graphing')
+    parser.add_argument('-o', '--output', type = str, required = True,
+        help = 'output file path (e.g. "output.csv")')
+    parser.add_argument('-t', '--title', type = str, required = True,
+        help = 'figure title start (e.g. "Throughput" for "Throughput Host 1 Server 1")')
+    parser.add_argument('-xp', '--x_parameter', type=str, required=False,
+                        help='the column name that becomes x parameter in the plot')
+    parser.add_argument('-yp', '--y_parameter', type=str, required=False,
+                        help='the column name that becomes y parameter in the plot')
+    parser.add_argument('-hue', '--hue', type=str, required=False,
+                        help='the column name that becomes hue in the plot')
+    parser.add_argument('-col', '--categorical_variable', type=str, required=False,
+                        help='the column name that splits the grid into two')
+    parser.add_argument('-y', '--y-limit', type = float, required = True,
+        help = 'y-limit for plot')
+
+    args = parser.parse_args()
+
+    file = args.file
+    title = args.title
+
+    global output
+    output = args.output
+
+    box_plot(file, title, args.y_limit,args.x_parameter,args.y_parameter,args.hue,args.categorical_variable)
+
+def box_plot(file, title, y_limit,x_parameter,y_parameter,hue,categorical_variable):
+    rcParams['font.size'] = 24
+    rcParams["font.family"] = "Arial"
+
+    if categorical_variable is None:
+        rcParams['ytick.labelsize'] = 20
+        rcParams['xtick.alignment'] = 'center'
+        rcParams['legend.fontsize'] = 17
+    if categorical_variable is not None:
+        rcParams['xtick.labelsize'] = 22
+        rcParams['ytick.labelsize'] = 20
+        rcParams['xtick.alignment'] = 'center'
+        rcParams['legend.fontsize'] = 22
+
+    #plt.legend(fontsize=12)
+    #rcParams["font.weight"] = "bold"
+    #plt.rcParams["figure.figsize"] = (8, 4)
+
+    data=pd.read_csv(file)
+    print(data)
+    '''sender_values = {}
+    receiver_values = []
+    curr_file = 0
+    for file_path in files:
+        file = open(file_path, 'r')
+        line = file.readline()
+        #sender_values = []
+        #receiver_values = []
+        while line:
+            line = line.split()
+            if line and line[-1] == 'sender':
+                if len(sender_values) <= curr_file:
+                    sender_values[names[curr_file]] = []
+                sender_values[names[curr_file]].append(float(line[6]))
+            elif line and line[-1] == 'receiver':
+                if len(receiver_values) <= curr_file:
+                    receiver_values.append([])
+                receiver_values[curr_file].append(float(line[6]))
+            line = file.readline()
+        file.close()
+        curr_file += 1
+
+    print(sender_values)
+    print(receiver_values)
+    '''
+    '''first = True
+    for column in data.columns:
+        if first:
+            first = False
+        else:'''
+    plt.clf()
+    
+    if x_parameter is None:
+        x_parameter='topology'
+    if y_parameter is None:
+        y_parameter='latency_ms'
+    if hue is None:
+        hue='application'
+
+    if categorical_variable is not None:
+        sns.set_style("ticks", {'axes.grid': True})
+
+        if categorical_variable == "Metric":
+            fig, axes = plt.subplots(1, 2, figsize=(11, 5))
+            # create chart in each subplot
+            df1, df2 = [x for _, x in data.groupby(data['Metric'] == 'nth packet')]
+            sns.barplot(x=x_parameter, y=y_parameter, hue=hue, data=df1, ax=axes[0],palette='mako')
+            sns.barplot(x=x_parameter, y=y_parameter, hue=hue, data=df2, ax=axes[1],palette='mako')
+            sns.despine()
+
+            axes[0].set_title("initial packet",fontdict={'fontsize': 24})
+            #axes[0].set_yticks([x for x in range(0, int(y_limit + 1), 10)])
+            axes[0].set_yscale('log')
+            axes[0].set_yticks([0.1, 1, 10, 100])
+            axes[1].set_title("nth packet",fontdict={'fontsize': 24})
+            axes[1].set_yscale('log')
+            axes[1].set_yticks([0.1, 1, 10, 100])
+
+        else:
+            plot_detailed=sns.catplot(x = x_parameter, y = y_parameter, hue = hue, data = data,col=categorical_variable,kind="bar",aspect=1.25,legend_out=False,palette='mako')
+            plot_detailed.set_titles(template='{col_name}')
+            axes=plot_detailed.axes.flat
+        once=False
+        for ax in axes:
+            #ax.legend(loc="upper left")#upper left
+            ax.set(xlabel=None)
+            if not once:
+                handles, labels = ax.get_legend_handles_labels()
+                plt.figlegend( handles, labels, loc = 'upper center', ncol=4, labelspacing=0.,bbox_to_anchor=(0.5, 0.15))
+                plt.tight_layout()
+                once=True
+            ax.legend([],[], frameon=False)
+    else:
+        bar_plot=sns.barplot(x = x_parameter, y = y_parameter, hue = hue, data = data,palette='mako')
+        bar_plot.set(xlabel=None)
+
+    save_title = title
+    '''if column[1] == '_':
+        save_title += ' Host ' + column[0:1] + ' to Server ' + column[2:]
+    else:
+    save_title = column + ' ' + title'''
+
+    #plt.title(save_title)
+    plt.ylabel(y_parameter)
+    #plt.xlabel(x_parameter)
+    #plt.gca().legend().set_title('')
+    
+    plt.gca().yaxis.grid(True)
+
+    # plt.gca().set_ylim([0, y_limit])
+    # plt.yticks([x for x in range(0, int(y_limit + 1), 10)])
+    plt.yscale('log')
+    plt.yticks([0.1, 1, 10, 100])
+
+    #if "first" in output:
+        # plt.gca().set_ylim([0, y_limit])
+        # plt.yticks([x for x in range(0, int(y_limit+1),10)])
+
+    # elif "nth" in output:
+    #     plt.yscale('log')
+    #     plt.yticks([0.1, 1, 10, 100])
+
+    plt.savefig(output + '.pdf', bbox_inches='tight')
+
+if __name__ == '__main__':
+    main()

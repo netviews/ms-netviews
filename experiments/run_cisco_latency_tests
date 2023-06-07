@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -x
+set -e
+
+cp ~/netviews-code/topology-json/topo-cisco/topo-cisco-info.json /tmp/identity_mapping.json
+cp ~/netviews-code/topology-json/topo-cisco/topo-cisco-policy.json /tmp/policy.json
+
+sudo -E ./mininet_script -t ../topology-json/topo-cisco/topo-cisco.json -c run -e experiment_all_latency_cisco -r "$1" -s 105 -w 1 -d ~/cisco-latency/fwd -a org.onosproject.fwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-cisco/topo-cisco.json -c run -e experiment_all_latency_cisco -r "$1" -s 105 -w 1 -d ~/cisco-latency/ifwd -a org.onosproject.ifwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-cisco/topo-cisco.json -c run -e experiment_all_latency_cisco -r "$1" -s 105 -w 1 -d ~/cisco-latency/netviews -a org.onosproject.netviews -f
+
+./mtr_to_csv -f ~/cisco-latency/fwd/client_latency_* -n {1..4}_{1..8} -o ~/cisco-latency/fwd.csv -r
+./mtr_to_csv -f ~/cisco-latency/ifwd/client_latency_* -n {1..4}_{1..8} -o ~/cisco-latency/ifwd.csv -r
+./mtr_to_csv -f ~/cisco-latency/netviews/client_latency_* -n {1..4}_{1..8} -o ~/cisco-latency/netviews.csv -r
+
+./clean_up_mtr -f ~/cisco-latency/fwd.csv ~/cisco-latency/ifwd.csv ~/cisco-latency/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/cisco-latency/results.csv -t "Cisco single site"
+./clean_up_mtr -f ~/cisco-latency/fwd.csv ~/cisco-latency/ifwd.csv ~/cisco-latency/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/cisco-latency/results-1st.csv -t "Cisco single site" -F

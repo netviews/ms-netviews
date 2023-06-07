@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -x
+set -e
+
+cp ~/netviews-code/topology-json/topo-ref/topo-ref-info.json /tmp/identity_mapping.json
+cp ~/netviews-code/topology-json/topo-ref/topo-ref-policy.json /tmp/policy.json
+
+sudo -E ./mininet_script -t ../topology-json/topo-ref/topo-ref.json -c run -e experiment_all_latency_ref -r "$1" -s 105 -w 1 -d ~/ref-latency/fwd -a org.onosproject.fwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-ref/topo-ref.json -c run -e experiment_all_latency_ref -r "$1" -s 105 -w 1 -d ~/ref-latency/ifwd -a org.onosproject.ifwd -f
+sudo -E ./mininet_script -t ../topology-json/topo-ref/topo-ref.json -c run -e experiment_all_latency_ref -r "$1" -s 105 -w 1 -d ~/ref-latency/netviews -a org.onosproject.netviews -f
+
+# ./mtr_to_csv -f ~/ref-latency/fwd/client_latency_* -n {5..11}_{1..13} -o ~/ref-latency/fwd.csv -r
+# ./mtr_to_csv -f ~/ref-latency/ifwd/client_latency_* -n {5..11}_{1..13} -o ~/ref-latency/ifwd.csv -r
+# ./mtr_to_csv -f ~/ref-latency/netviews/client_latency_* -n {5..11}_{1..13} -o ~/ref-latency/netviews.csv -r
+
+# ./clean_up_mtr -f ~/ref-latency/fwd.csv ~/ref-latency/ifwd.csv ~/ref-latency/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/ref-latency/results.csv -t "Ref single site"
+# ./clean_up_mtr -f ~/ref-latency/fwd.csv ~/ref-latency/ifwd.csv ~/ref-latency/netviews.csv -n "fwd" "ifwd" "NetViews" -o ~/ref-latency/results-1st.csv -t "Ref single site" -F

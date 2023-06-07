@@ -1,0 +1,6 @@
+Topology,Case,Latency (ms)
+Cisco,Intra-site,7.851513157894737
+Cisco,Between Adjacent Sites,13.1278125
+Cisco,Between NY and Washington,21.22203947368421
+Cisco,Between Copenhagen and Washington,114.45230263157895
+

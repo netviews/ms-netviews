@@ -1,0 +1,9 @@
+application,topology,latency_ms
+NetViews,Cisco 1 Site,0.0756362901427297
+ifwd,Cisco 1 Site,0.07451360392506691
+NetViews,Cisco 2 Sites,1.3788026873327386
+ifwd,Cisco 2 Sites,1.3618953501338091
+NetViews,Ministanford 1 Site,0.1015263509667899
+ifwd,Ministanford 1 Site,0.10223425657252072
+NetViews,Ministanford 2 Sites,1.209994651243969
+ifwd,Ministanford 2 Sites,1.3344338661945088

@@ -1,0 +1,160 @@
+#!/usr/bin/env python3
+"""
+
+Example usage:
+
+./run_multisite_experiment -t ~/nv-code2/topology-json/topo-cisco-multisite/topo-cisco-site -e ~/nv-code2/experiments/experiment_all_multisite_cisco -m ~/nv-code2/experiments/mininet_script
+"""
+import subprocess
+import os
+import argparse
+from pathlib import Path
+
+
+def cmd(txt, **kwargs):
+    print("Running commnad: "+txt+"\n")
+    subprocess.run(txt, shell=True, check=True, **kwargs)
+
+parser = argparse.ArgumentParser(description="Run a multi-VM NetViews experiment")
+parser.add_argument(
+    "-t",
+    "--topology",
+    type=str,
+    required=True,
+    help="the path to a topology to be run on the Mininet script",
+)
+parser.add_argument(
+    "-e",
+    "--experiments",
+    type=str,
+    required=True,
+    help="the path to the experiment file to run",
+)
+parser.add_argument(
+    "-m",
+    "--mininet-script",
+    type=str,
+    required=True,
+    help="the path to the mininet script",
+)
+parser.add_argument(
+    "-M",
+    "--mininet-script-args",
+    type=str,
+    default="",
+    help="additional args to pass along to the mininet script",
+)
+parser.add_argument(
+    "-a",
+    "--onos-app",
+    type=str,
+    default="org.onosproject.fwd",
+    help="the onos app to enable",
+)
+parser.add_argument(
+    "-d",
+    "--destination",
+    type=str,
+    default="results",
+    help="Where to place the results of the experiment (will create directory)",
+)
+parser.add_argument(
+    "-r",
+    "--reset",
+    action="store_true",
+    help="whether to restart ONOS before experiment and teardown after",
+)
+parser.add_argument(
+    "-s",
+    "--siteCount",
+    type=int,
+    required=True,
+    help="total number of sites",
+)
+args = parser.parse_args()
+
+print("=== Copying scenario files to local ONOS ===")
+cmd('cp -- scenarios/*.xml "$ONOS_ROOT/tools/test/scenarios/"')
+
+siteCount=args.siteCount
+
+#kill and start the coordinating server again
+cmd("ps -aux | grep '[c]oordinate_experiments.py' | awk '{print $2}' | xargs --no-run-if-empty sudo kill -9")
+cmd("~/central_admin/coordinate_experiments.py -s " + str(siteCount) + " &")
+
+#kill if any mininet script running
+cmd("sudo mn -c && ps -aux | grep '[m]ininet_script -t' | awk '{print $2}' | xargs --no-run-if-empty sudo kill -9")
+
+#kill previous server if running on central admin and start a new one
+cmd("ps -aux | grep '[s]erver.py' | awk '{print $2}' | xargs --no-run-if-empty sudo kill -9")
+cmd("sleep 2; ~/central_admin/server.py &")
+
+#kill previous watch if running on central admin and start a new one. Remove old location files and create new ones on central admin
+cmd("ps -aux | grep '[w]atch' | awk '{print $2}'| xargs --no-run-if-empty sudo kill -9")
+cmd("rm -f ~/central_admin/location_log.json ~/central_admin/prev_location_log.json ~/central_admin/location_log_diff.json")
+cmd("touch ~/central_admin/prev_location_log.json; sleep 2; printf \"{}\" > ~/central_admin/prev_location_log.json")
+cmd("ls ~/central_admin/ -la |grep location")
+cmd("sleep 2; ~/central_admin/watch &")
+
+for site_number in range(1, siteCount+1):
+
+    #kill old mininet_script from individual sites if running
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" ps -aux | grep '[m]ininet_script' | awk '{print $2}'| xargs --no-run-if-empty ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" sudo kill -9")
+    #kill previous mininet topology if running
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" sudo mn -c")
+
+    #kill old watch script from individual sites if running
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" sudo ps -aux | grep '[w]atch' | awk '{print $2}'| xargs --no-run-if-empty ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" sudo kill -9")
+
+    #run watch script at individual sites. Remove old location files and create new ones at individual sites
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" rm -f /tmp/location_log.json /tmp/location_log_diff.json")    
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" touch /tmp/location_log.json")
+    cmd(" printf \"{}\" | "+"ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" -T \"cat > /tmp/location_log.json\"")
+    
+    cmd("ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" ls /tmp/ -la |grep location")
+    cmd("sleep 2; ssh "+os.environ.get('ONOS_USER')+"@"+os.environ.get('OC'+str(site_number))+" /tmp/watch &")
+
+
+#restart onos. Sometime onos does not start so I check if it has started, if not, I restart again.
+count_onos_processes=3
+while count_onos_processes<=3:
+    cmd('bash -c "source ~/onos/tools/dev/bash_profile && onos-service --cell stop && onos-service --cell restart" && sleep 20')
+    result=subprocess.run(['bash', '-c', 'ps -aux| grep karaf.main.Main | awk \'{print $2}\'|wc -l'],stdout=subprocess.PIPE, text=True)
+    print(result.stdout)
+    count_onos_processes=int(result.stdout)
+
+for site_number in range(1, siteCount+1):
+
+    cmd("onos ${OC"+str(site_number)+"} app activate org.onosproject.ifwd")
+    cmd("onos ${OC"+str(site_number)+"} app deactivate org.onosproject.ifwd")
+    cmd("onos ${OC"+str(site_number)+"} remove-intent -p org.onosproject.ifwd")
+
+    cmd("onos ${OC"+str(site_number)+"} app activate org.onosproject.netviews")
+    cmd("onos ${OC"+str(site_number)+"} app deactivate org.onosproject.netviews")
+    cmd("onos ${OC"+str(site_number)+"} remove-intent -p org.onosproject.netviews")
+
+    cmd("onos ${OC"+str(site_number)+"} app activate org.onosproject.fwd")
+    cmd("onos ${OC"+str(site_number)+"} app deactivate org.onosproject.fwd")
+    cmd("onos ${OC"+str(site_number)+"} remove-intent -p org.onosproject.fwd")
+
+cmd("sleep 10")
+
+experiment_env = {
+    **os.environ,
+    "NETVIEWS_TOPOLOGY": args.topology,
+    "NETVIEWS_EXPERIMENTS": args.experiments,
+    "NETVIEWS_TEST_SCRIPT": args.mininet_script,
+    "NETVIEWS_APP": args.onos_app,
+    "NETVIEWS_DESTINATION": args.destination,
+    # Strip the quotes from the args
+    "NETVIEWS_MININET_SCRIPT_ARGS": args.mininet_script_args[1:-1],
+}
+
+if args.reset:
+    print("=== Restarting cell ONOS controllers ===")
+    cmd("stc restart")
+
+print("=== Running Experiments ===")
+cmd("stc run_experiment", env=experiment_env)
+
+print("=== All done! ===")
