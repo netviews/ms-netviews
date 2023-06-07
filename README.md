@@ -125,7 +125,7 @@ If the above returns a build error, you may need to delete a file (as below) and
 try again
 
 ``` shell
-rm ~/netviews-code/ONOS_Apps/netviews/src/main/java/org/onosproject/netviews/AppCommand.java
+rm ~/ms-netviews/ONOS_Apps/netviews/src/main/java/org/onosproject/netviews/AppCommand.java
 ```
 
 Run ONOS, if not running already, wait until debug log stops
@@ -137,7 +137,7 @@ cd ~/onos && bazel run onos-local -- clean debug
 Start a new shell. Use `generate_related_files.py` to generate all related files for the experiment (topology, identity mapping, policy, obligation files, prohibition files, etc for all the sites). The script above generates related files for two site settings (set via the -s parameter). Please refer to the arguments of `generate_related_files.py` for more details. 
 
 ``` shell
-pushd ~/netviews-code/topology-json/automation/ && ./generate_related_files.py -s 2 -n 200 -client_ratio 0.65 -server_ratio 0.35 -t ministanford -tc 1000 -et RR -r 50 && popd
+pushd ~/ms-netviews/topology-json/automation/ && ./generate_related_files.py -s 2 -n 200 -client_ratio 0.65 -server_ratio 0.35 -t ministanford -tc 1000 -et RR -r 50 && popd
 ```
   
 Make sure the terminal has up-to-date environment variables for installing and running containers by running the following command. Put this command in `~/.bashrc` too, so any new terminals opened afterwards would automatically load the configurations.
