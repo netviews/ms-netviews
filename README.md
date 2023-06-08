@@ -134,7 +134,7 @@ Run ONOS, if not running already, wait until debug log stops
 cd ~/onos && bazel run onos-local -- clean debug
 ```
 
-Start a new shell. Use `generate_related_files.py` to generate all related files for the experiment (topology, identity mapping, policy, obligation files, prohibition files, etc for all the sites). The script above generates related files for two site settings (set via the -s parameter). Please refer to the arguments of `generate_related_files.py` for more details. 
+Start a new shell. Use `/topology-json/automation/generate_related_files.py` to generate all related files for the experiment (topology, identity mapping, policy, obligation files, prohibition files, etc for all the sites). The script above generates related files for two site settings (set via the -s parameter). Please refer to the arguments of `generate_related_files.py` for more details. 
 
 ``` shell
 pushd ~/ms-netviews/topology-json/automation/ && ./generate_related_files.py -s 2 -n 200 -client_ratio 0.65 -server_ratio 0.35 -t ministanford -tc 1000 -et RR -r 50 && popd
@@ -154,10 +154,10 @@ First, build the NetViews app; `make vm-up` creates the containers for all sites
 
 
 ``` shell
-pushd ~/netviews-code/ && make vm-build && make netviews && make ifwd && make vm-down && make vm-up && popd
+pushd ~/ms-netviews/ && make vm-build && make netviews && make ifwd && make vm-down && make vm-up && popd
 ```
 
-`distribute_policies` takes an enterprise policy generated above (by `generate_related_files.py`) and then slices that policy into individual site specific policies. It also copies Policy Identity mapping, Obligation files, and Prohibition files to each site
+`/central_admin/distribute_policies` takes an enterprise policy generated above (by `/topology-json/automation/generate_related_files.py`) and then slices that policy into individual site specific policies. It also copies Policy Identity mapping, Obligation files, and Prohibition files to each site
 
 ``` shell
 pushd ~/central_admin/ && ./distribute_policies && popd
@@ -165,24 +165,24 @@ pushd ~/central_admin/ && ./distribute_policies && popd
 
 ### Experiments
 
-To run experiments (please refer to the arguments of `run_multisite_experiment` for more details). The follwoing script is for running latency experiements. 
+To run experiments (please refer to the arguments of `run_multisite_experiment` for more details). The follwoing script is for running latency experiments. 
 
 ``` shell
-pushd ~/netviews-code && ./scenarios/run_multisite_experiment -s 2 -t ./topology-json/automation/ministanford_2_sites/site -e ./topology-json/automation/ministanford_2_sites/latency_experiments/latency_experiment_round1.json -m experiments/mininet_script -d ministanford_2_site_netviews_latency_experiment_round1 -a org.onosproject.netviews -M '"-z MULTISITE -s 120 -A 10 -f -r 20 -w 0.1 -T gre -I gretun_1 -l 0.5"' && popd
+pushd ~/ms-netviews && ./scenarios/run_multisite_experiment -s 2 -t ./topology-json/automation/ministanford_2_sites/site -e ./topology-json/automation/ministanford_2_sites/latency_experiments/latency_experiment_round1.json -m experiments/mininet_script -d ministanford_2_site_netviews_latency_experiment_round1 -a org.onosproject.netviews -M '"-z MULTISITE -s 120 -A 10 -f -r 20 -w 0.1 -T gre -I gretun_1 -l 0.5"' && popd
 ```
 
 ### Results
 
-The results folder specificed by `-d` argument in the [experiment](#experiments) would be available in the `~/netviews-code` directory where the experiments had been run.  
+The results folder specified by `-d` argument in the [experiment](#experiments) would be available in the `~/ms-netviews` directory where the experiments had been run.  
 
 ### Plots
 
-Run the following caommands to plot the results. The resultant plots would be availabe in `~/parsed-results` folder specificed as the output folder in the commands below. The follwoing script is for running latency experiment plots. 
+Run the following commands to plot the results. The resultant plots would be available in `~/parsed-results` folder specified as the output folder in the commands below. The following script is for running latency experiment plots. 
 
 ``` shell
-~/netviews-code/experiments/multisite_ping_to_csv.py -f ministanford_2_site_netviews_latency_experiment_round/client_* -o ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -r -c 65 -s 35
-~/netviews-code/experiments/clean_up_mtr -f ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -n "NetViews" -o ~/parsed-results/ministanford_two_site_nth_packet_latency_results.csv -t "Ministanford Two Site nth Packet Latency" -rfr True -runs 20
-~/netviews-code/experiments/clean_up_mtr -f ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -n "NetViews" -o ~/parsed-results/ministanford_two_site_first_packet_latency_results.csv -t "Ministanford Two Site first Packet Latency" -F -rfr True -runs 20
+~/ms-netviews/experiments/multisite_ping_to_csv.py -f ministanford_2_site_netviews_latency_experiment_round/client_* -o ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -r -c 65 -s 35
+~/ms-netviews/experiments/clean_up_mtr -f ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -n "NetViews" -o ~/parsed-results/ministanford_two_site_nth_packet_latency_results.csv -t "Ministanford Two Site nth Packet Latency" -rfr True -runs 20
+~/ms-netviews/experiments/clean_up_mtr -f ~/parsed-results/ministanford_2_site_netviews_latency_experiment.csv -n "NetViews" -o ~/parsed-results/ministanford_two_site_first_packet_latency_results.csv -t "Ministanford Two Site first Packet Latency" -F -rfr True -runs 20
 
 ```
 
@@ -209,5 +209,5 @@ stcDumpLogs=true stc distribute-policies
 ```
 
 ## Footnotes
-[^1]: I realized there’s a \$HOME environment already present in linux, so I’ll update my scripts to load that info from \$HOME rather than \$HOME_DIRECTORY and then will remove this step.
+[^1]: I realized there is a \$HOME environment already present in linux, so I’ll update my scripts to load that info from \$HOME rather than \$HOME_DIRECTORY and then will remove this step.
 
